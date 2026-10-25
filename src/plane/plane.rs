@@ -5,10 +5,45 @@ use crate::vector::Vector3;
 /// Constructors normalize the normal; private fields preserve that invariant.
 /// Equality compares stored coefficients exactly, including orientation.
 /// Generic numeric inputs convert to f64; wide integers may lose precision.
+/// With the `serde` feature, deserialization rejects non-finite coefficients and
+/// normals whose length differs from one by more than `16 * f64::EPSILON`.
+/// Accepted coefficients are preserved exactly, without renormalization.
 #[derive(Debug, Clone, Copy, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize))]
 pub struct Plane {
     normal: Vector3<f64>,
     distance: f64,
+}
+
+#[cfg(feature = "serde")]
+impl<'de> serde::Deserialize<'de> for Plane {
+    /// Restores stored coefficients after validating the private plane invariants.
+    /// A small tolerance accommodates floating-point normalization error.
+    fn deserialize<D: serde::Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+        /// Wire representation with the same name and field order as Plane.
+        #[derive(serde::Deserialize)]
+        #[serde(rename = "Plane")]
+        struct Coefficients {
+            /// Expected finite unit normal.
+            normal: Vector3<f64>,
+            /// Finite constant in the plane equation.
+            distance: f64,
+        }
+
+        let coefficients = Coefficients::deserialize(deserializer)?;
+        if !finite(coefficients.normal)
+            || !coefficients.distance.is_finite()
+            || (coefficients.normal.length() - 1.0).abs() > 16.0 * f64::EPSILON
+        {
+            return Err(serde::de::Error::custom(
+                "expected a finite unit normal and a finite plane distance",
+            ));
+        }
+        Ok(Self {
+            normal: coefficients.normal,
+            distance: coefficients.distance,
+        })
+    }
 }
 
 impl Plane {

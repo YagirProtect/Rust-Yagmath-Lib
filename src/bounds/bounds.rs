@@ -24,7 +24,10 @@ macro_rules! create_bounds {
         /// Size is geometric (max - min), not an integer cell count.
         /// Equality/hash compare corners when the scalar supports them.
         /// Default uses scalar defaults for both corners (zero bounds for numbers).
+        /// With the `serde` feature, deserialization restores corners without validation;
+        /// call `is_valid` to validate untrusted numeric data.
         #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+        #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
         pub struct $name<T> {
             /// Inclusive minimum corner. Direct changes can invalidate the bounds.
             pub min: $vector<T>,

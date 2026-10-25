@@ -8,7 +8,8 @@
 ## Source layout
 
 ```text
-Cargo.toml                 Package yagmath, edition 2024, no dependencies
+Cargo.toml                 Package yagmath, edition 2024, optional Serde dependency
+.github/workflows/rust.yml GitHub Actions: Linux/Windows builds, tests and documentation
 README.md                 Project overview and documentation entry point
 docs/                     Linked cookbook, API inventory, numeric policies, SVGs
 scripts/check_docs.py      Local Markdown link/anchor and SVG validation (Python stdlib)
@@ -45,6 +46,7 @@ src/
     math/                 Inverse lerp and scalar game math
     extensions/           Scalar arithmetic and ToF64
     plane.rs              Plane constructors, projection, invariants
+    serialization.rs      Feature-gated serialization and decoding validation
 ```
 
 Private implementation modules are intentionally not downstream import paths. Use the public re-exports listed in the [API map](api.md#imports).
@@ -80,11 +82,15 @@ implementation details and are not stable downstream import paths.
 cargo test
 cargo test --release
 cargo test --doc
+cargo test --features serde
 cargo test tests::vector::slerp
 cargo test tests::plane
 ```
 
-The suite contains **232 unit tests** plus executable documentation examples. Totals grow as examples/tests are added; command output is authoritative. This is a test count, not a coverage percentage or a claim that every possible numeric input has been proved correct.
+The suite contains **232 unit tests**, plus **10 serialization tests** when the
+`serde` feature is enabled, and executable documentation examples. Totals grow as
+examples/tests are added; command output is authoritative. This is a test count,
+not a coverage percentage or a claim that every possible numeric input has been proved correct.
 
 Tests include:
 
@@ -98,6 +104,7 @@ Tests include:
 | Conversion | All 196 numeric pairs, integer wrapping, 128-bit limits, float precision, rounding and an exhaustive i16→i8 test |
 | Bounds | Corner order, center/full size, inclusive contact, public-field invalidation, closest point |
 | Plane | Unit normal, constructor winding, signed distances, point vs vector projection, flipped orientation, extreme/invalid geometry |
+| Serde | Named fields, scalar limits, custom/borrowed components, owned readers, bounds validation, plane invariants, enum/error round trips |
 | Math | Reversed/equal ranges, remap, waves, damping convergence/velocity/time validation, angular wraparound |
 | Segment intersection | Crossings, contacts, collinear overlap/direction, zero-length segments, mixed scalars, extreme coordinates, all 6,561 configurations on a 3x3 integer grid against integer orientation predicates |
 
@@ -137,7 +144,20 @@ When adding a method:
 4. Update numeric policy tables if the method introduces different behavior.
 5. Run doctests, debug/release unit tests and strict rustdoc.
 
-No benchmarks, automated CI workflow, or coverage measurement are set up by this documentation. Existing unused-import/dead-code compiler warnings are separate from rustdoc checks.
+GitHub Actions is configured in [rust.yml](../.github/workflows/rust.yml). Pushes to
+master, pull requests targeting master, and manual dispatch run the same checks on
+`ubuntu-latest` and `windows-latest` with stable Rust, both without optional
+features and with `serde` enabled. The workflow builds all
+targets, runs debug/release tests (including doctests), builds strict rustdoc and
+checks handbook links/SVG XML. Python 3.12 is installed only for the documentation
+checker. Cargo commands use --locked to keep the checked-in lockfile unchanged.
+
+Open the repository's Actions tab to inspect each step or manually run the Rust
+workflow. Superseded runs for the same branch/PR are cancelled. The workflow has
+read-only repository permissions and performs validation; publishing remains a
+separate operation. Its real status is shown by the README badge after GitHub has
+run it. No benchmark or coverage measurement is configured. Existing
+unused-import/dead-code compiler warnings are separate from strict rustdoc checks.
 
 <a id="release-metadata"></a>
 ## Release metadata

@@ -6,6 +6,9 @@
 
 Import `yagmath::Plane` or `yagmath::plane::Plane`. This is a concrete f64 type, not `Plane<T>`.
 
+The optional [Serde feature](serde.md) supports saving and loading coefficients,
+with unit-normal and finite-distance validation when decoding.
+
 ![Normal, signed distance and closest point](assets/plane.svg)
 
 <a id="equation"></a>

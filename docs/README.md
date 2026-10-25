@@ -12,6 +12,7 @@ This is a linked Markdown handbook. Relative links work in GitHub and ordinary M
 | [Plane](plane.md) | Oriented 3D planes and projection |
 | [Conversion](conversion.md) | Numeric conversion policies, rounding and errors |
 | [Extensions](extensions.md) | Scalar traits and custom types |
+| [Serde](serde.md) | Optional serialization, formats and validation on loading |
 | [Numeric behavior](numerics.md) | Precision, invalid inputs, overflow and return conventions |
 | [API map](api.md) | Compact inventory for humans and coding assistants |
 | [Development](development.md) | Source layout, macro expansion, tests and documentation checks |

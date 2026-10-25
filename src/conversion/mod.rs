@@ -39,6 +39,7 @@ mod integers;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 /// Policy for numeric range overflow and float representation loss.
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum ConversionMode {
     /// Rejects range overflow and conversion-to-float precision loss.
     Checked,
@@ -50,6 +51,7 @@ pub enum ConversionMode {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 /// Rounding applied before float-to-integer range validation; ignored otherwise.
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum RoundingMode {
     /// Removes the fractional part toward zero. The default for vector convert().
     Truncate,
@@ -77,6 +79,7 @@ impl RoundingMode {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 /// Why a scalar conversion failed.
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum ConversionErrorKind {
     /// The rounded/cast value is outside the destination's representable range.
     OutOfRange,
@@ -91,11 +94,39 @@ pub enum ConversionErrorKind {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 /// The first failing vector component and its conversion error.
 /// Implements Display and std::error::Error.
+/// With `serde`, deserialization accepts only component names x, y, z and w.
+#[cfg_attr(feature = "serde", derive(serde::Serialize))]
 pub struct ConversionError {
     /// Component name: x, y, z or w. Components are checked in field order.
     pub component: &'static str,
     /// Reason the component could not be converted.
     pub kind: ConversionErrorKind,
+}
+
+#[cfg(feature = "serde")]
+impl<'de> serde::Deserialize<'de> for ConversionError {
+    /// Maps an owned component name to a static field name without leaking
+    /// allocations or requiring a static input buffer during decoding.
+    fn deserialize<D: serde::Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+        /// Wire representation with owned text so readers need no borrowed buffer.
+        #[derive(serde::Deserialize)]
+        #[serde(rename = "ConversionError")]
+        struct StoredError {
+            /// Field name to validate and map to a static identifier.
+            component: String,
+            /// Scalar conversion failure.
+            kind: ConversionErrorKind,
+        }
+        let stored = StoredError::deserialize(deserializer)?;
+        let component = match stored.component.as_str() {
+            "x" => "x",
+            "y" => "y",
+            "z" => "z",
+            "w" => "w",
+            _ => return Err(serde::de::Error::custom("expected component x, y, z or w")),
+        };
+        Ok(Self { component, kind: stored.kind })
+    }
 }
 
 impl std::fmt::Display for ConversionErrorKind {

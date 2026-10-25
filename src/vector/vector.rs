@@ -24,6 +24,7 @@ macro_rules! create_vector {
         /// Vector/scalar `/` returns `Option<Self>` and fails if any component
         /// division fails. `+=`, `-=`, vector/scalar `*=` are supported; `/=` is not.
         #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+        #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
         pub struct $name<T> {
             $(
                 #[doc = concat!("The `", stringify!($field), "` component.")]

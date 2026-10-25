@@ -126,6 +126,9 @@ Slerp keeps its name because its public interpolation parameter is unitless.
 <a id="policies"></a>
 ## Numeric policies and traits
 
+The optional [Serde feature](serde.md) adds Serialize/Deserialize to vectors,
+bounds, Plane, SegmentIntersection2 and the conversion policies/errors.
+
 * [ConversionMode](conversion.md#modes): Checked, Clamp, Wrap.
 * [RoundingMode](conversion.md#rounding): Truncate, Round, Floor, Ceil.
 * [ConversionError / ConversionErrorKind](conversion.md#errors): first component, OutOfRange / PrecisionLoss / NonFinite / UnsupportedMode.

@@ -6,6 +6,9 @@
 
 `Bounds2<T>` stores public `Vector2<T>` fields `min, max`. `Bounds3<T>` uses `Vector3<T>` with the same methods. Regions are axis-aligned and closed: every minimum and maximum edge is included. These represent geometric regions, not grid storage.
 
+The optional [Serde feature](serde.md) saves and restores both corners without
+geometric validation. Check `is_valid()` after loading untrusted numeric bounds.
+
 ![Closed bounds, overlap and closest point](assets/bounds.svg)
 
 <a id="construction"></a>

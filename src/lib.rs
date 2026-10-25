@@ -15,6 +15,14 @@
 //! * Wide integers can lose precision in geometry after conversion to `f64`.
 //!   Integer-to-integer [`conversion`] does not pass through `f64`.
 //!
+//! # Optional serialization
+//!
+//! Enable the `serde` Cargo feature for Serialize/Deserialize on vectors, bounds,
+//! planes, segment intersections and conversion policies/errors. Generic
+//! components need only the corresponding Serde trait, not numeric traits.
+//! Bounds restore public corners without validation; Plane validates its private
+//! unit-normal and finite-offset invariants. Default builds have no dependencies.
+//!
 //! # Example
 //!
 //! ```
@@ -58,6 +66,9 @@ mod guide_examples {
     mod conversion {}
     #[doc = include_str!("../docs/extensions.md")]
     mod extensions {}
+    #[cfg(feature = "serde")]
+    #[doc = include_str!("../docs/serde.md")]
+    mod serialization {}
 }
 #[cfg(test)]
 mod tests;

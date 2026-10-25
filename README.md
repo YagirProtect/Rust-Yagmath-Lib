@@ -1,6 +1,8 @@
 # yagmath
 
-Generic Rust vector math and geometry for games: **2D/3D/4D vectors, axis-aligned bounds, 3D planes, interpolation, smoothing and explicit numeric conversions**. No external dependencies.
+[![Rust CI](https://github.com/YagirProtect/Rust-Yagmath-Lib/actions/workflows/rust.yml/badge.svg)](https://github.com/YagirProtect/Rust-Yagmath-Lib/actions/workflows/rust.yml)
+
+Generic Rust vector math and geometry for games: **2D/3D/4D vectors, axis-aligned bounds, 3D planes, interpolation, smoothing and explicit numeric conversions**. No external dependencies by default; optional Serde support.
 
 [Documentation index](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/README.md) · [API map](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/api.md) · [Numeric behavior](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/numerics.md) · [Tests and architecture](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/development.md)
 
@@ -10,7 +12,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-yagmath = "0.1.1"
+yagmath = "0.1.2"
 ```
 
 Then use it in your Rust code:
@@ -36,6 +38,17 @@ bounds, planes, conversions and error handling.
 
 ## Documentation
 
+For saving/loading vectors, bounds and other data, enable optional Serde support:
+
+```toml
+[dependencies]
+yagmath = { version = "0.1.2", features = ["serde"] }
+```
+
+See the [serialization guide](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/serde.md)
+for JSON examples, supported types and validation behavior. Serde support was
+introduced in version 0.1.2.
+
 ![Vectors, bounds and planes](https://raw.githubusercontent.com/YagirProtect/Rust-Yagmath-Lib/master/docs/assets/geometry.svg)
 
 | You need… | Read |
@@ -46,6 +59,7 @@ bounds, planes, conversions and error handling.
 | Surface normals, signed distances, plane projection | [Plane](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/plane.md) |
 | Integer/float conversion with Checked, Clamp, Wrap and rounding | [Conversion](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/conversion.md) |
 | Arithmetic policies for numbers and custom scalar types | [Extensions](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/extensions.md) |
+| Optional serialization, JSON formats and loading validation | [Serde](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/serde.md) |
 | Exact method names, modules and return types | [API map](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/api.md) |
 
 ## Structures and conventions
@@ -80,6 +94,7 @@ Angle-valued APIs end in **`_rad` for radians** or **`_deg` for degrees**. Both 
 cargo doc --no-deps --open
 cargo test
 cargo test --release
+cargo test --features serde
 cargo test --doc
 ```
 

@@ -1,0 +1,60 @@
+name: Rust
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build-and-test:
+    name: Build and test (${{ matrix.os }}, ${{ matrix.features }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        features: [default, serde]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Install stable Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Set up Python for documentation checks
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Build
+        run: cargo build --locked --all-targets --no-default-features --features ${{ matrix.features }}
+
+      - name: Test debug and documentation examples
+        run: cargo test --locked --no-default-features --features ${{ matrix.features }}
+
+      - name: Test release and documentation examples
+        run: cargo test --locked --release --no-default-features --features ${{ matrix.features }}
+
+      - name: Check rustdoc
+        env:
+          RUSTDOCFLAGS: -D missing_docs -D rustdoc::broken_intra_doc_links -D rustdoc::invalid_html_tags
+        run: cargo doc --locked --no-deps --document-private-items --no-default-features --features ${{ matrix.features }}
+
+      - name: Check handbook links and SVG files
+        run: python scripts/check_docs.py

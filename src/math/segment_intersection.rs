@@ -5,6 +5,7 @@ use crate::vector::Vector2;
 /// The nonempty intersection of two closed 2D line segments.
 /// Coordinates use f64; equality compares stored values exactly.
 #[derive(Debug, Clone, Copy, PartialEq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum SegmentIntersection2 {
     /// One common point, including an endpoint touch or a zero-length segment.
     Point(Vector2<f64>),
