@@ -149,7 +149,9 @@ Inspect the actual archive contents with `cargo package --list --allow-dirty`;
 this lists files locally and does not publish anything.
 
 The crate uses the [MIT License](../LICENSE), with `license = "MIT"` in the
-manifest and the complete text in the Cargo package. Repository/homepage metadata
-can be added when the actual URLs are available. This documentation does not
-invent a repository URL, crates.io publication, CI badge or performance claim.
-Build documentation locally until an actual hosted API reference exists.
+manifest and the complete text in the Cargo package. The manifest's repository
+field points to GitHub and its documentation field points to the linked handbook.
+README links use absolute GitHub URLs and its overview image uses a raw file URL,
+so rendering the README outside GitHub does not depend on relative-path rewriting.
+The handbook's internal links remain relative for local browsing. Build the API
+reference locally with cargo doc; the linked handbook is not generated rustdoc.
