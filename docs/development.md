@@ -148,7 +148,8 @@ Cargo archive while retaining the source and handbook required by doctests.
 Inspect the actual archive contents with `cargo package --list --allow-dirty`;
 this lists files locally and does not publish anything.
 
-Before distribution, the owner should choose a license and fill in real
-author/repository/homepage metadata as appropriate. This documentation does not
-invent a license, repository URL, crates.io publication, CI badge or performance
-claim. Build documentation locally until an actual hosted API reference exists.
+The crate uses the [MIT License](../LICENSE), with `license = "MIT"` in the
+manifest and the complete text in the Cargo package. Repository/homepage metadata
+can be added when the actual URLs are available. This documentation does not
+invent a repository URL, crates.io publication, CI badge or performance claim.
+Build documentation locally until an actual hosted API reference exists.

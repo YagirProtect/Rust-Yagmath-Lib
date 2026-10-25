@@ -2,6 +2,7 @@
 name = "yagmath"
 version = "0.1.0"
 edition = "2024"
+license = "MIT"
 description = "Game math for Rust: generic 2D/3D/4D vectors, AABB bounds, planes, interpolation, angle helpers and numeric conversions"
 readme = "README.md"
 keywords = ["math", "gamedev", "vector", "geometry", "interpolation"]

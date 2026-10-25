@@ -110,6 +110,6 @@ and `game-engines` categories. The distributable package retains Rust source,
 README, handbook and diagrams; repository maintenance scripts are excluded using
 `exclude = ["scripts/"]`.
 
-A repository URL and license have not been specified in the checked-in metadata.
-No license is inferred by this documentation; a license decision and distribution
-metadata remain work for the owner before release.
+Licensed under the [MIT License](LICENSE). The manifest declares `license = "MIT"`,
+and the full license text is included in the repository and Cargo package.
+A repository URL has not yet been specified in the checked-in metadata.
