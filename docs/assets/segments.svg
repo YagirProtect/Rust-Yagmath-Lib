@@ -1,19 +1,49 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="245" viewBox="0 0 900 245" role="img" aria-labelledby="title desc">
-  <title id="title">Closed 2D segment intersections</title>
-  <desc id="desc">Crossing segments and endpoint touches return a point. Collinear segments can share a complete interval, returned as an overlap.</desc>
-  <rect width="900" height="245" rx="12" fill="#f3f6fa"/>
-  <g font-family="sans-serif" fill="#16324f">
-    <g font-size="20" font-weight="bold"><text x="34" y="38">Crossing</text><text x="340" y="38">Endpoint touch</text><text x="640" y="38">Collinear overlap</text></g>
-    <path d="M45 172L237 66" stroke="#16696f" stroke-width="4"/>
-    <path d="M45 66L237 172" stroke="#d08b26" stroke-width="4"/>
-    <circle cx="141" cy="119" r="6" fill="#16324f"/>
-    <path d="M343 166L435 94" stroke="#16696f" stroke-width="4"/>
-    <path d="M435 94L537 166" stroke="#d08b26" stroke-width="4"/>
-    <circle cx="435" cy="94" r="6" fill="#16324f"/>
-    <path d="M633 106H790" stroke="#16696f" stroke-width="4"/>
-    <path d="M691 106H850" stroke="#d08b26" stroke-width="4"/>
-    <path d="M691 106H790" stroke="#16324f" stroke-width="7"/>
-    <path d="M691 100V138M790 100V138" stroke="#a2b1c2" stroke-dasharray="3 3"/>
-    <g font-size="17"><text x="93" y="218">Point(p)</text><text x="389" y="218">Point(p)</text><text x="632" y="218">Overlap { start, end }</text></g>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="380" viewBox="0 0 1200 380" role="img" aria-labelledby="title desc">
+  <title id="title">Closed segment intersections</title>
+  <desc id="desc">Crossing segments and endpoint touches return one point. Collinear overlap returns an interval whose endpoints follow the first segment direction.</desc>
+  <defs>
+    <marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1 1L11 6L1 11Z" fill="#63d9cc"/></marker>
+    <marker id="axis-arrow" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1L7 4L1 7Z" fill="#71829e"/></marker>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#243247" stroke-width="0.7"/></pattern>
+    <style>
+      text { font-family: Segoe UI, Arial, sans-serif; fill: #e5ecf6; }
+      .title { font-size: 28px; font-weight: 600; letter-spacing: -0.5px; }
+      .subtitle { font-size: 16px; fill: #9baac0; }
+      .section { font-size: 20px; font-weight: 600; }
+      .label { font-size: 16px; }
+      .small { font-size: 14px; fill: #9baac0; }
+      .mono { font-family: Consolas, 'Liberation Mono', monospace; font-size: 18px; }
+      .cyan { fill: #63d9cc; }
+      .gold { fill: #f0bc78; }
+      .blue { fill: #9cb5ff; }
+      .axis { fill: none; stroke: #71829e; stroke-width: 1.2; }
+      .guide { fill: none; stroke: #66758e; stroke-width: 1.2; stroke-dasharray: 4 6; }
+      .vector { fill: none; stroke: #63d9cc; stroke-width: 2.5; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="1199" height="379" rx="14" fill="#101923" stroke="#29364a"/>
+
+  <text x="40" y="53" class="title">Segment intersections</text>
+  <text x="40" y="84" class="subtitle">One shared point, or a shared interval.</text>
+  <path d="M400 139V282M800 139V282" stroke="#29364a"/>
+  <text x="40" y="142" class="section">Crossing</text>
+  <path d="M80 250L314 174" stroke="#9cb5ff" stroke-width="2.5"/>
+  <path d="M80 174L314 250" stroke="#63d9cc" stroke-width="2.5"/>
+  <circle cx="197" cy="212" r="5" fill="#f0bc78" stroke="#101923" stroke-width="2"/>
+  <text x="40" y="305" class="mono gold">Point(p)</text>
+  <text x="440" y="142" class="section">Endpoint touch</text>
+  <path d="M468 249L598 179" stroke="#9cb5ff" stroke-width="2.5"/>
+  <path d="M598 179L730 249" stroke="#63d9cc" stroke-width="2.5"/>
+  <circle cx="598" cy="179" r="5" fill="#f0bc78" stroke="#101923" stroke-width="2"/>
+  <text x="440" y="305" class="mono gold">Point(p)</text>
+  <text x="840" y="142" class="section">Collinear overlap</text>
+  <path d="M857 211H1037" stroke="#9cb5ff" stroke-width="2.5"/>
+  <path d="M947 211H1148" stroke="#63d9cc" stroke-width="2.5"/>
+  <path d="M947 211H1037" stroke="#f0bc78" stroke-width="4"/>
+  <circle cx="947" cy="211" r="4" fill="#f0bc78"/><circle cx="1037" cy="211" r="4" fill="#f0bc78"/>
+  <path d="M947 230V238H1037V230" fill="none" stroke="#66758e" stroke-width="1"/>
+  <text x="925" y="263" class="small">start</text><text x="1025" y="263" class="small">end</text>
+  <text x="840" y="305" class="mono gold" style="font-size:17px">Overlap { start, end }</text>
+  <text x="40" y="354" class="small">Endpoints are included. Zero-length segments are treated as points.</text>
+
 </svg>

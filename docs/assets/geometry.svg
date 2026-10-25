@@ -1,24 +1,53 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="300" viewBox="0 0 1080 300" role="img" aria-labelledby="title desc">
-  <title id="title">yagmath geometry overview</title>
-  <desc id="desc">Three panels show a two-dimensional vector, closed rectangular bounds, and an oriented plane with a normal.</desc>
-  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="#16696f" stroke-width="1.5"/></marker></defs>
-  <rect width="1080" height="300" rx="16" fill="#f3f6fa"/>
-  <g font-family="sans-serif" fill="#16324f">
-    <rect x="16" y="16" width="338" height="268" rx="12" fill="white"/>
-    <rect x="370" y="16" width="338" height="268" rx="12" fill="white"/>
-    <rect x="724" y="16" width="340" height="268" rx="12" fill="white"/>
-    <g font-size="21" font-weight="bold"><text x="40" y="50">Vector2 / 3 / 4</text><text x="394" y="50">Bounds2 / 3</text><text x="748" y="50">Plane</text></g>
-    <path d="M62 224H318M82 242V82" stroke="#a2b1c2" stroke-width="2"/>
-    <path d="M82 224L265 105" stroke="#16696f" stroke-width="5" marker-end="url(#arrow)"/>
-    <path d="M265 105V224H82" fill="none" stroke="#d89c35" stroke-width="2" stroke-dasharray="5 5"/>
-    <g font-size="16"><text x="275" y="115">(x, y)</text><text x="177" y="247">x</text><text x="274" y="176">y</text></g>
-    <rect x="422" y="100" width="225" height="124" rx="1" fill="#e2f3ef" stroke="#16696f" stroke-width="3"/>
-    <circle cx="422" cy="224" r="5" fill="#16696f"/><circle cx="647" cy="100" r="5" fill="#16696f"/>
-    <circle cx="534" cy="162" r="4" fill="#d08b26"/>
-    <g font-size="16"><text x="413" y="249">min</text><text x="650" y="94">max</text><text x="544" y="167">center</text></g>
-    <path d="M756 211L862 127L1027 162L920 246Z" fill="#e2f3ef" stroke="#16696f" stroke-width="2"/>
-    <path d="M889 184L903 80" stroke="#16696f" stroke-width="4" marker-end="url(#arrow)"/>
-    <circle cx="889" cy="184" r="5" fill="#d08b26"/>
-    <g font-size="16"><text x="915" y="99">unit normal</text><text x="787" y="269">n · point + distance = 0</text></g>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="440" viewBox="0 0 1200 440" role="img" aria-labelledby="title desc">
+  <title id="title">yagmath: vectors, bounds and planes</title>
+  <desc id="desc">Three geometric primitives: a vector with coordinate projections, closed bounds with minimum and maximum corners, and an oriented plane with a unit normal.</desc>
+  <defs>
+    <marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1 1L11 6L1 11Z" fill="#63d9cc"/></marker>
+    <marker id="axis-arrow" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1L7 4L1 7Z" fill="#71829e"/></marker>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#243247" stroke-width="0.7"/></pattern>
+    <style>
+      text { font-family: Segoe UI, Arial, sans-serif; fill: #e5ecf6; }
+      .title { font-size: 28px; font-weight: 600; letter-spacing: -0.5px; }
+      .subtitle { font-size: 16px; fill: #9baac0; }
+      .section { font-size: 20px; font-weight: 600; }
+      .label { font-size: 16px; }
+      .small { font-size: 14px; fill: #9baac0; }
+      .mono { font-family: Consolas, 'Liberation Mono', monospace; font-size: 18px; }
+      .cyan { fill: #63d9cc; }
+      .gold { fill: #f0bc78; }
+      .blue { fill: #9cb5ff; }
+      .axis { fill: none; stroke: #71829e; stroke-width: 1.2; }
+      .guide { fill: none; stroke: #66758e; stroke-width: 1.2; stroke-dasharray: 4 6; }
+      .vector { fill: none; stroke: #63d9cc; stroke-width: 2.5; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="1199" height="439" rx="14" fill="#101923" stroke="#29364a"/>
+
+  <text x="40" y="52" class="title">Vectors, bounds &amp; planes</text>
+  <text x="40" y="82" class="subtitle">Small geometric primitives for game worlds.</text>
+  <path d="M400 123V351M800 123V351" stroke="#29364a"/>
+  <text x="40" y="139" class="section">Vector</text><text x="340" y="139" text-anchor="end" class="small">2D / 3D / 4D</text>
+  <rect x="80" y="165" width="274" height="174" fill="url(#grid)" opacity="0.65"/>
+  <path d="M88 326H353M104 342V169" class="axis" marker-end="url(#axis-arrow)"/>
+  <text x="358" y="331" class="small">x</text><text x="99" y="160" class="small">y</text>
+  <path d="M310 208V326H104" class="guide"/>
+  <path d="M104 326L310 208" class="vector"/>
+  <circle cx="104" cy="326" r="4" fill="#e5ecf6"/>
+  <text x="245" y="187" class="mono cyan">v = (x, y)</text>
+  <text x="197" y="349" class="small">x</text><text x="323" y="274" class="small">y</text>
+  <text x="40" y="399" class="small">Coordinates. Directions. Motion.</text>
+  <text x="440" y="139" class="section">Bounds</text><text x="748" y="139" text-anchor="end" class="small">MIN / MAX</text>
+  <rect x="456" y="205" width="274" height="121" fill="#63d9cc" fill-opacity="0.07" stroke="#63d9cc" stroke-width="1.7"/>
+  <circle cx="456" cy="326" r="4" fill="#63d9cc"/><circle cx="730" cy="205" r="4" fill="#63d9cc"/>
+  <path d="M587 265H599M593 259V271" stroke="#9cb5ff" stroke-width="1.7"/>
+  <text x="456" y="350" class="mono cyan">min</text><text x="730" y="190" text-anchor="end" class="mono cyan">max</text>
+  <text x="609" y="271" class="small">center</text>
+  <text x="440" y="399" class="small">Closed regions. Inclusive boundaries.</text>
+  <text x="840" y="139" class="section">Plane</text><text x="1154" y="139" text-anchor="end" class="small">UNIT NORMAL</text>
+  <path d="M850 302L940 240L1148 283L1058 345Z" fill="#63d9cc" fill-opacity="0.07" stroke="#63d9cc" stroke-width="1.5"/>
+  <path d="M998 292L998 180" class="vector"/>
+  <circle cx="998" cy="292" r="3.5" fill="#e5ecf6"/>
+  <text x="1016" y="196" class="mono cyan">n</text>
+  <text x="840" y="399" class="mono" style="font-size:16px">n &#183; point + distance = 0</text>
+
 </svg>

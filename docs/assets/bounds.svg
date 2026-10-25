@@ -1,17 +1,50 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="820" height="350" viewBox="0 0 820 350" role="img" aria-labelledby="title desc">
-  <title id="title">Closed bounds and closest point</title>
-  <desc id="desc">A rectangle includes its boundary. A point outside the rectangle clamps to the nearest boundary. Two rectangles meeting at an edge intersect.</desc>
-  <rect width="820" height="350" rx="12" fill="#f3f6fa"/>
-  <g font-family="sans-serif" fill="#16324f">
-    <text x="25" y="37" font-size="22" font-weight="bold">Closed bounds: min and max are included</text>
-    <rect x="68" y="95" width="235" height="170" fill="#e2f3ef" stroke="#16696f" stroke-width="3"/>
-    <circle cx="68" cy="265" r="5" fill="#16696f"/><circle cx="303" cy="95" r="5" fill="#16696f"/>
-    <path d="M303 180H390" stroke="#d08b26" stroke-width="2" stroke-dasharray="6 4"/>
-    <circle cx="390" cy="180" r="6" fill="#d08b26"/><circle cx="303" cy="180" r="6" fill="#16696f"/>
-    <g font-size="16"><text x="48" y="291">min=(0,0)</text><text x="244" y="80">max=(10,20)</text><text x="321" y="160">outside</text><text x="202" y="207">closest point</text><text x="87" y="327">size=(10,20), center=(5,10)</text></g>
-    <rect x="479" y="114" width="136" height="140" fill="#e2f3ef" stroke="#16696f" stroke-width="3"/>
-    <rect x="615" y="160" width="142" height="122" fill="#fff0d6" stroke="#d08b26" stroke-width="3"/>
-    <path d="M615 160V254" stroke="#16324f" stroke-width="5"/>
-    <g font-size="17"><text x="496" y="98">A</text><text x="699" y="144">B</text><text x="480" y="319">A.intersects(&amp;B) == true</text></g>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="540" viewBox="0 0 1200 540" role="img" aria-labelledby="title desc">
+  <title id="title">Closed bounds and nearest points</title>
+  <desc id="desc">A closed rectangle includes its min and max corners. An outside point projects to its closest boundary point. Two rectangles sharing an edge intersect.</desc>
+  <defs>
+    <marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1 1L11 6L1 11Z" fill="#63d9cc"/></marker>
+    <marker id="axis-arrow" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1L7 4L1 7Z" fill="#71829e"/></marker>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#243247" stroke-width="0.7"/></pattern>
+    <style>
+      text { font-family: Segoe UI, Arial, sans-serif; fill: #e5ecf6; }
+      .title { font-size: 28px; font-weight: 600; letter-spacing: -0.5px; }
+      .subtitle { font-size: 16px; fill: #9baac0; }
+      .section { font-size: 20px; font-weight: 600; }
+      .label { font-size: 16px; }
+      .small { font-size: 14px; fill: #9baac0; }
+      .mono { font-family: Consolas, 'Liberation Mono', monospace; font-size: 18px; }
+      .cyan { fill: #63d9cc; }
+      .gold { fill: #f0bc78; }
+      .blue { fill: #9cb5ff; }
+      .axis { fill: none; stroke: #71829e; stroke-width: 1.2; }
+      .guide { fill: none; stroke: #66758e; stroke-width: 1.2; stroke-dasharray: 4 6; }
+      .vector { fill: none; stroke: #63d9cc; stroke-width: 2.5; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="1199" height="539" rx="14" fill="#101923" stroke="#29364a"/>
+
+  <text x="40" y="53" class="title">Closed bounds</text>
+  <text x="40" y="84" class="subtitle">Both corners are included. Touching counts as intersection.</text>
+  <path d="M660 140V448" stroke="#29364a"/>
+  <text x="70" y="151" class="section">Closest point</text>
+  <rect x="90" y="190" width="300" height="180" fill="url(#grid)" opacity="0.55"/>
+  <rect x="90" y="190" width="300" height="180" fill="#63d9cc" fill-opacity="0.06" stroke="#63d9cc" stroke-width="1.8"/>
+  <circle cx="90" cy="370" r="4" fill="#63d9cc"/><circle cx="390" cy="190" r="4" fill="#63d9cc"/>
+  <text x="90" y="401" class="mono cyan">min = (0, 0)</text><text x="242" y="174" class="mono cyan">max = (10, 6)</text>
+  <path d="M234 280H246M240 274V286" stroke="#9cb5ff" stroke-width="1.7"/>
+  <text x="215" y="313" class="small">center</text>
+  <path d="M390 280H510" fill="none" stroke="#f0bc78" stroke-width="1.4" stroke-dasharray="4 6"/>
+  <circle cx="390" cy="280" r="5" fill="#63d9cc"/><circle cx="510" cy="280" r="5" fill="#f0bc78"/>
+  <text x="517" y="262" class="mono gold">P</text>
+  <path d="M394 286L414 310H563" fill="none" stroke="#66758e" stroke-width="1"/>
+  <text x="420" y="334" class="mono" style="font-size:16px">closest_point(P)</text>
+  <text x="735" y="151" class="section">Touching edges</text>
+  <rect x="755" y="221" width="156" height="150" fill="#9cb5ff" fill-opacity="0.07" stroke="#9cb5ff" stroke-width="1.7"/>
+  <rect x="911" y="299" width="191" height="111" fill="#63d9cc" fill-opacity="0.07" stroke="#63d9cc" stroke-width="1.7"/>
+  <path d="M911 299V371" stroke="#e5ecf6" stroke-width="3"/>
+  <text x="823" y="305" class="section blue">A</text><text x="997" y="363" class="section cyan">B</text>
+  <text x="736" y="457" class="mono">a.intersects(&amp;b) &#8594; true</text>
+  <path d="M40 482H1160" stroke="#29364a"/>
+  <text x="40" y="517" class="small">Bounds store min/max corners. Size is geometric, not a count of integer cells.</text>
+
 </svg>

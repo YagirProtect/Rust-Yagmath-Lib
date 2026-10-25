@@ -1,16 +1,52 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="820" height="370" viewBox="0 0 820 370" role="img" aria-labelledby="title desc">
-  <title id="title">Plane normal, signed distance and point projection</title>
-  <desc id="desc">A horizontal plane at y equals ten has upward normal and distance coefficient minus ten. A point at y thirteen is three units above it; its closest point has y ten.</desc>
-  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="#16696f" stroke-width="1.5"/></marker></defs>
-  <rect width="820" height="370" rx="12" fill="#f3f6fa"/>
-  <g font-family="sans-serif" fill="#16324f">
-    <text x="25" y="37" font-size="22" font-weight="bold">Plane: n · point + d = 0</text>
-    <path d="M55 277L186 190L412 234L283 321Z" fill="#e2f3ef" stroke="#16696f" stroke-width="2"/>
-    <path d="M170 251V121" stroke="#16696f" stroke-width="4" marker-end="url(#arrow)"/>
-    <path d="M305 119V265" stroke="#d08b26" stroke-width="2" stroke-dasharray="6 4"/>
-    <circle cx="305" cy="119" r="6" fill="#d08b26"/><circle cx="305" cy="265" r="6" fill="#16696f"/>
-    <g font-size="16"><text x="70" y="109">normal=(0,1,0)</text><text x="319" y="116">P</text><text x="318" y="207">+3</text><text x="319" y="284">closest point</text><text x="84" y="345">surface y=10, coefficient d=-10</text></g>
-    <g font-size="18"><text x="468" y="109">P = (2,13,4)</text><text x="468" y="149">signed_distance(P) = 3</text><text x="468" y="203">closest_point(P) = (2,10,4)</text><text x="468" y="257">project_vector(P) = (2,0,4)</text></g>
-    <text x="468" y="305" font-size="16">Vectors ignore the surface offset;</text><text x="468" y="329" font-size="16">points keep their location in space.</text>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="580" viewBox="0 0 1200 580" role="img" aria-labelledby="title desc">
+  <title id="title">Plane distances and projections</title>
+  <desc id="desc">A plane at y equals ten has normal (0,1,0) and equation coefficient minus ten. Point P=(2,13,4) is three units above it. Point projection returns (2,10,4); displacement projection returns (2,0,4).</desc>
+  <defs>
+    <marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1 1L11 6L1 11Z" fill="#63d9cc"/></marker>
+    <marker id="axis-arrow" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1L7 4L1 7Z" fill="#71829e"/></marker>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#243247" stroke-width="0.7"/></pattern>
+    <style>
+      text { font-family: Segoe UI, Arial, sans-serif; fill: #e5ecf6; }
+      .title { font-size: 28px; font-weight: 600; letter-spacing: -0.5px; }
+      .subtitle { font-size: 16px; fill: #9baac0; }
+      .section { font-size: 20px; font-weight: 600; }
+      .label { font-size: 16px; }
+      .small { font-size: 14px; fill: #9baac0; }
+      .mono { font-family: Consolas, 'Liberation Mono', monospace; font-size: 18px; }
+      .cyan { fill: #63d9cc; }
+      .gold { fill: #f0bc78; }
+      .blue { fill: #9cb5ff; }
+      .axis { fill: none; stroke: #71829e; stroke-width: 1.2; }
+      .guide { fill: none; stroke: #66758e; stroke-width: 1.2; stroke-dasharray: 4 6; }
+      .vector { fill: none; stroke: #63d9cc; stroke-width: 2.5; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="1199" height="579" rx="14" fill="#101923" stroke="#29364a"/>
+
+  <text x="40" y="53" class="title">Plane distances and projections</text>
+  <text x="40" y="84" class="subtitle">A unit normal gives the distance a sign and the surface an orientation.</text>
+  <path d="M80 380L260 280L600 370L420 470Z" fill="#63d9cc" fill-opacity="0.07" stroke="#63d9cc" stroke-width="1.5"/>
+  <path d="M270 370V203" class="vector"/>
+  <circle cx="270" cy="370" r="3.5" fill="#e5ecf6"/>
+  <text x="287" y="225" class="mono cyan">n = (0, 1, 0)</text>
+  <path d="M435 195V398" stroke="#f0bc78" stroke-width="1.4" stroke-dasharray="4 6"/>
+  <circle cx="435" cy="195" r="5" fill="#f0bc78"/><circle cx="435" cy="398" r="5" fill="#63d9cc"/>
+  <text x="452" y="191" class="mono gold">P</text>
+  <path d="M473 195H481M477 195V398M473 398H481" fill="none" stroke="#66758e" stroke-width="1"/>
+  <text x="492" y="302" class="mono gold">+3</text>
+  <text x="450" y="431" class="small">closest point</text>
+  <path d="M655 150V484" stroke="#29364a"/>
+  <text x="708" y="171" class="section">Surface at y = 10</text>
+  <text x="708" y="215" class="mono cyan">n &#183; point + d = 0</text>
+  <text x="708" y="245" class="small">Unit normal (0, 1, 0), coefficient d = &#8722;10</text>
+  <text x="708" y="307" class="mono">signed_distance(P)</text>
+  <text x="1099" y="307" text-anchor="end" class="mono gold">3</text>
+  <path d="M708 330H1100" stroke="#29364a"/>
+  <text x="708" y="369" class="mono">closest_point(P)</text>
+  <text x="708" y="402" class="label cyan">(2, 10, 4)</text>
+  <text x="708" y="453" class="mono">project_vector(P)</text>
+  <text x="708" y="486" class="label blue">(2, 0, 4)</text>
+  <path d="M40 522H1160" stroke="#29364a"/>
+  <text x="40" y="557" class="small">Point projection keeps the surface location. Vector projection ignores its offset.</text>
+
 </svg>

@@ -1,23 +1,54 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="820" height="370" viewBox="0 0 820 370" role="img" aria-labelledby="title desc">
-  <title id="title">Lerp and slerp between unit vectors</title>
-  <desc id="desc">Lerp follows the straight chord from one unit direction to another and becomes shorter. Slerp follows the unit circle arc and preserves length.</desc>
-  <rect width="820" height="370" rx="12" fill="#f3f6fa"/>
-  <g font-family="sans-serif" fill="#16324f">
-    <text x="28" y="36" font-size="22" font-weight="bold">Same endpoints, different paths</text>
-    <path d="M100 300H365M100 300V65" stroke="#a2b1c2" stroke-width="2"/>
-    <path d="M100 90A210 210 0 0 1 310 300" fill="none" stroke="#16696f" stroke-width="5"/>
-    <path d="M100 90L310 300" fill="none" stroke="#d08b26" stroke-width="4"/>
-    <path d="M100 300L248.49 151.51M100 300L205 195" fill="none" stroke="#a2b1c2" stroke-dasharray="5 5"/>
-    <g fill="#16324f"><circle cx="100" cy="90" r="5"/><circle cx="310" cy="300" r="5"/></g>
-    <circle cx="248.49" cy="151.51" r="6" fill="#16696f"/>
-    <circle cx="205" cy="195" r="6" fill="#d08b26"/>
-    <g font-size="16"><text x="35" y="80">b=(0,1)</text><text x="275" y="329">a=(1,0)</text><text x="83" y="326">origin</text></g>
-    <path d="M439 101H478" stroke="#16696f" stroke-width="5"/><path d="M439 201H478" stroke="#d08b26" stroke-width="4"/>
-    <text x="494" y="107" font-size="20" font-weight="bold">slerp(a, b, 0.5)</text>
-    <text x="494" y="138" font-size="17">(0.707, 0.707), length = 1</text>
-    <text x="494" y="207" font-size="20" font-weight="bold">lerp(a, b, 0.5)</text>
-    <text x="494" y="238" font-size="17">(0.5, 0.5), length ≈ 0.707</text>
-    <text x="439" y="297" font-size="16">Slerp changes direction along the arc.</text>
-    <text x="439" y="323" font-size="16">Non-unit lengths interpolate linearly.</text>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" role="img" aria-labelledby="title desc">
+  <title id="title">Lerp and slerp: a chord and an arc</title>
+  <desc id="desc">A straight lerp chord and a circular slerp arc connect unit vectors. Their halfway points have different lengths: approximately 0.707 for lerp and 1 for slerp.</desc>
+  <defs>
+    <marker id="arrow" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1 1L11 6L1 11Z" fill="#63d9cc"/></marker>
+    <marker id="axis-arrow" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1L7 4L1 7Z" fill="#71829e"/></marker>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#243247" stroke-width="0.7"/></pattern>
+    <style>
+      text { font-family: Segoe UI, Arial, sans-serif; fill: #e5ecf6; }
+      .title { font-size: 28px; font-weight: 600; letter-spacing: -0.5px; }
+      .subtitle { font-size: 16px; fill: #9baac0; }
+      .section { font-size: 20px; font-weight: 600; }
+      .label { font-size: 16px; }
+      .small { font-size: 14px; fill: #9baac0; }
+      .mono { font-family: Consolas, 'Liberation Mono', monospace; font-size: 18px; }
+      .cyan { fill: #63d9cc; }
+      .gold { fill: #f0bc78; }
+      .blue { fill: #9cb5ff; }
+      .axis { fill: none; stroke: #71829e; stroke-width: 1.2; }
+      .guide { fill: none; stroke: #66758e; stroke-width: 1.2; stroke-dasharray: 4 6; }
+      .vector { fill: none; stroke: #63d9cc; stroke-width: 2.5; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect x="0.5" y="0.5" width="1199" height="599" rx="14" fill="#101923" stroke="#29364a"/>
+
+  <text x="40" y="53" class="title">Lerp and slerp</text>
+  <text x="40" y="84" class="subtitle">Same endpoints. A straight segment or a spherical arc.</text>
+  <rect x="105" y="154" width="377" height="337" fill="url(#grid)" opacity="0.6"/>
+  <path d="M100 470H488M120 491V150" class="axis"/>
+  <path d="M120 470L317.99 272.01" class="guide"/>
+  <path d="M120 190L400 470" fill="none" stroke="#f0bc78" stroke-width="2.5"/>
+  <path d="M120 190A280 280 0 0 1 400 470" fill="none" stroke="#63d9cc" stroke-width="3"/>
+  <circle cx="120" cy="470" r="3" fill="#9baac0"/>
+  <circle cx="120" cy="190" r="5" fill="#e5ecf6"/><circle cx="400" cy="470" r="5" fill="#e5ecf6"/>
+  <circle cx="260" cy="330" r="6" fill="#f0bc78" stroke="#101923" stroke-width="2"/>
+  <circle cx="317.99" cy="272.01" r="6" fill="#63d9cc" stroke="#101923" stroke-width="2"/>
+  <text x="138" y="180" class="mono">b = (0, 1)</text><text x="367" y="501" class="mono">a = (1, 0)</text>
+  <text x="100" y="498" class="small">0</text>
+  <path d="M324 268L348 244H419" fill="none" stroke="#63d9cc" stroke-opacity="0.6"/>
+  <text x="358" y="231" class="label cyan">slerp</text>
+  <text x="277" y="354" class="label gold">lerp</text>
+  <path d="M568 159V505" stroke="#29364a"/>
+  <path d="M620 205H654" stroke="#63d9cc" stroke-width="3"/>
+  <text x="674" y="211" class="mono cyan">slerp(a, b, 0.5)</text>
+  <text x="620" y="255" class="section">&#8776; (0.707, 0.707)</text>
+  <text x="620" y="287" class="subtitle">Length stays 1 for unit inputs.</text>
+  <path d="M620 365H654" stroke="#f0bc78" stroke-width="3"/>
+  <text x="674" y="371" class="mono gold">lerp(a, b, 0.5)</text>
+  <text x="620" y="415" class="section">(0.5, 0.5)</text>
+  <text x="620" y="447" class="subtitle">Length becomes approximately 0.707.</text>
+  <path d="M40 539H1160" stroke="#29364a"/>
+  <text x="40" y="574" class="small">Slerp follows the direction arc; non-unit magnitudes interpolate linearly.</text>
+
 </svg>
