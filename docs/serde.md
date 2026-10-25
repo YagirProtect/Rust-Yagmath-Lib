@@ -6,7 +6,7 @@ Enable the `serde` feature in the application that uses yagmath:
 
 ```toml
 [dependencies]
-yagmath = { version = "0.1.2", features = ["serde"] }
+yagmath = { version = "0.1.3", features = ["serde"] }
 serde_json = "1"
 ```
 

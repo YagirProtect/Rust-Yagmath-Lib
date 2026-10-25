@@ -1,9 +1,9 @@
 [package]
 name = "yagmath"
-version = "0.1.2"
+version = "0.1.3"
 edition = "2024"
 license = "MIT"
-description = "Game math for Rust: generic 2D/3D/4D vectors, AABB bounds, planes, interpolation, angle helpers and numeric conversions"
+description = "Game math for Rust: generic 2D/3D/4D vectors, AABB bounds, planes, interpolation, angle helpers and numeric conversions. Optional serde and no_std support."
 readme = "README.md"
 repository = "https://github.com/YagirProtect/Rust-Yagmath-Lib"
 documentation = "https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/README.md"

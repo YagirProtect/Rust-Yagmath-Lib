@@ -12,7 +12,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-yagmath = "0.1.2"
+yagmath = "0.1.3"
 ```
 
 Then use it in your Rust code:
@@ -55,10 +55,10 @@ For embedded Rust, disable the default `std` feature and enable `no_std`:
 
 ```toml
 [dependencies]
-yagmath = { path = "../math_utils", default-features = false, features = ["no_std"] }
+yagmath = { version = "0.1.3", default-features = false, features = ["no_std"] }
 ```
 
-This configuration requires the source checkout until a new registry release.
+no_std support was introduced in version 0.1.3.
 It also supports `features = ["no_std", "serde"]` without a heap allocator.
 See the [no_std guide](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/no_std.md)
 for feature combinations, target checks and microcontroller considerations.
@@ -67,7 +67,7 @@ For saving/loading vectors, bounds and other data, enable optional Serde support
 
 ```toml
 [dependencies]
-yagmath = { version = "0.1.2", features = ["serde"] }
+yagmath = { version = "0.1.3", features = ["serde"] }
 ```
 
 See the [serialization guide](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/serde.md)
@@ -108,10 +108,9 @@ Angle-valued APIs end in **`_rad` for radians** or **`_deg` for degrees**. Both 
 
 ## Conversion errors
 
-The source checkout now returns `VectorComponent` instead of a string in
+Version 0.1.3 returns `VectorComponent` instead of a string in
 `ConversionError.component`. Update comparisons such as `error.component == "x"`
-to `error.component == VectorComponent::X`. This API change and no_std support
-require a new release after the existing 0.1.2 registry version.
+to `error.component == VectorComponent::X` when upgrading from 0.1.2.
 
 ```rust
 use yagmath::{ConversionMode, VectorComponent, vector::Vector2};

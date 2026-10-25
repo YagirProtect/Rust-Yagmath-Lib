@@ -8,12 +8,11 @@ default features and enable `no_std`, which selects the optional `libm` math bac
 
 ```toml
 [dependencies]
-yagmath = { path = "../math_utils", default-features = false, features = ["no_std"] }
+yagmath = { version = "0.1.3", default-features = false, features = ["no_std"] }
 ```
 
-Adjust the path to your checkout. This capability is new in the source checkout;
-the existing 0.1.2 release does not include it. After a new registry release,
-replace `path` with that release's `version`.
+no_std support was introduced in version 0.1.3. For a local checkout, replace
+`version` with `path = "../math_utils"`, adjusting the path to your checkout.
 
 | Features | Behavior |
 |---|---|
