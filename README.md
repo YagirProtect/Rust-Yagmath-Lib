@@ -2,17 +2,41 @@
 
 Generic Rust vector math and geometry for games: **2D/3D/4D vectors, axis-aligned bounds, 3D planes, interpolation, smoothing and explicit numeric conversions**. No external dependencies.
 
-Use yagmath for player movement, steering angles, surface projection, rectangular
-world boundaries, interpolated animation values and 2D edge intersection queries.
-The API supports integer, f32 and f64 vector components, with documented overflow
-and conversion policies. It uses the Rust standard library and has no Python
-requirement at build time or runtime.
-
 [Documentation index](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/README.md) · [API map](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/api.md) · [Numeric behavior](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/numerics.md) · [Tests and architecture](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/development.md)
 
-![Vectors, bounds and planes](https://raw.githubusercontent.com/YagirProtect/Rust-Yagmath-Lib/master/docs/assets/geometry.svg)
+## Usage
 
-## Start here
+Add this to your `Cargo.toml`:
+
+```toml
+[dependencies]
+yagmath = "0.1.1"
+```
+
+Then use it in your Rust code:
+
+```rust
+use yagmath::{Math, vector::Vector2};
+
+fn main() {
+    let position = Vector2::new(0, 0);
+    let target = Vector2::new(3, 4);
+    let next = position.move_towards(target, 2.5);
+
+    println!("Next position: {next}"); // (1.5, 2)
+
+    let turn = Math::delta_angle_deg(350.0, 10.0);
+
+    println!("Turn: {turn} degrees"); // 20 degrees
+}
+```
+
+Use a Rust toolchain supporting edition 2024. See the linked guides below for
+bounds, planes, conversions and error handling.
+
+## Documentation
+
+![Vectors, bounds and planes](https://raw.githubusercontent.com/YagirProtect/Rust-Yagmath-Lib/master/docs/assets/geometry.svg)
 
 | You need… | Read |
 |---|---|
@@ -23,38 +47,6 @@ requirement at build time or runtime.
 | Integer/float conversion with Checked, Clamp, Wrap and rounding | [Conversion](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/conversion.md) |
 | Arithmetic policies for numbers and custom scalar types | [Extensions](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/extensions.md) |
 | Exact method names, modules and return types | [API map](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/api.md) |
-
-## Installation
-
-The checked-in package is named `yagmath`, version `0.1.0`, edition 2024. To use a local checkout:
-
-```toml
-[dependencies]
-yagmath = { path = "../math_utils" }
-```
-
-Adjust the path to your checkout. Use a Rust toolchain supporting edition 2024. Source and the linked handbook are hosted in the [GitHub repository](https://github.com/YagirProtect/Rust-Yagmath-Lib).
-
-## Quick start
-
-```rust
-use yagmath::{Math, Plane};
-use yagmath::bounds::Bounds2;
-use yagmath::vector::{Vector2, Vector3};
-
-let position = Vector2::new(0, 0);
-let next = position.move_towards(Vector2::new(3, 4), 2.5);
-assert_eq!(next, Vector2::new(1.5, 2.0));
-
-let map = Bounds2::new(Vector2::new(0, 0), Vector2::new(100, 100)).unwrap();
-assert_eq!(map.closest_point(Vector2::new(120, 50)), Some(Vector2::new(100, 50)));
-
-let ground = Plane::from_normal_point(
-    Vector3::new(0, 1, 0), Vector3::new(0, 10, 0),
-).unwrap();
-assert_eq!(ground.signed_distance(Vector3::new(0, 13, 0)), 3.0);
-assert_eq!(Math::remap(50, 0, 100, 0.0, 1.0), 0.5);
-```
 
 ## Structures and conventions
 
@@ -80,7 +72,7 @@ Angle-valued APIs end in **`_rad` for radians** or **`_deg` for degrees**. Both 
 * Geometric conversion to `f64` can round wide integers. Integer-to-integer `convert` preserves exact integer handling and never passes through floats.
 * Bounds include both ends. Bounds `0..9` have geometric size `9`, not `10` cells. Touching bounds intersect.
 * `Plane` constructors validate geometry. Its normal stays normalized because fields are private.
-* This is an early `0.1.0` crate. It currently has no matrices, quaternions, transforms, grids, raycasting or SIMD-specific API. It is not a drop-in replacement for glam or Unity.
+* This is an early `0.1.x` crate. It currently has no matrices, quaternions, transforms, grids, raycasting or SIMD-specific API. It is not a drop-in replacement for glam or Unity.
 
 ## Documentation and validation
 

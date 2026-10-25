@@ -26,15 +26,22 @@ The normal is a unit `Vector3<f64>` and distance is a finite `f64` coefficient. 
 Constructors use scaling for huge/subnormal inputs. They cannot recover precision already lost in the coordinates or when converting wide integers to f64. No Default exists because a zero normal would be invalid.
 
 ```rust
-use yagmath::{Plane, vector::Vector3};
-let plane = Plane::from_normal_point(Vector3::new(0, 5, 0), Vector3::new(0, 10, 0)).unwrap();
-assert_eq!(plane.normal(), Vector3::new(0.0, 1.0, 0.0));
-assert_eq!(plane.distance(), -10.0);
-let xy = Plane::from_points(
-    Vector3::new(0, 0, 0), Vector3::new(1, 0, 0), Vector3::new(0, 1, 0),
-).unwrap();
-assert_eq!(xy.normal(), Vector3::new(0.0, 0.0, 1.0));
-assert!(Plane::from_normal_point(Vector3::new(0, 0, 0), Vector3::new(0, 0, 0)).is_none());
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    use yagmath::{Plane, vector::Vector3};
+    let plane = Plane::from_normal_point(Vector3::new(0, 5, 0), Vector3::new(0, 10, 0)).ok_or("cannot construct a plane from these inputs")?;
+
+    assert_eq!(plane.normal(), Vector3::new(0.0, 1.0, 0.0));
+    assert_eq!(plane.distance(), -10.0);
+
+    let xy = Plane::from_points(
+        Vector3::new(0, 0, 0), Vector3::new(1, 0, 0), Vector3::new(0, 1, 0),
+    ).ok_or("cannot construct a plane from these inputs")?;
+
+    assert_eq!(xy.normal(), Vector3::new(0.0, 0.0, 1.0));
+    assert!(Plane::from_normal_point(Vector3::new(0, 0, 0), Vector3::new(0, 0, 0)).is_none());
+
+    Ok(())
+}
 ```
 
 <a id="queries"></a>
@@ -54,12 +61,17 @@ Query arguments may use any ToF64 numeric type. Signed distance can yield NaN/in
 **Point projection and vector projection differ:** a point has a location; a vector describes a displacement. Projecting a velocity onto the ground removes its vertical component, without adding the ground's height.
 
 ```rust
-use yagmath::{Plane, vector::Vector3};
-let ground = Plane::from_normal_point(Vector3::new(0, 1, 0), Vector3::new(0, 10, 0)).unwrap();
-assert_eq!(ground.signed_distance(Vector3::new(0, 13, 0)), 3.0);
-assert_eq!(ground.signed_distance(Vector3::new(0, 8, 0)), -2.0);
-assert_eq!(ground.closest_point(Vector3::new(2, 13, 4)), Vector3::new(2.0, 10.0, 4.0));
-assert_eq!(ground.project_vector(Vector3::new(2, 13, 4)), Vector3::new(2.0, 0.0, 4.0));
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    use yagmath::{Plane, vector::Vector3};
+    let ground = Plane::from_normal_point(Vector3::new(0, 1, 0), Vector3::new(0, 10, 0)).ok_or("cannot construct a plane from these inputs")?;
+
+    assert_eq!(ground.signed_distance(Vector3::new(0, 13, 0)), 3.0);
+    assert_eq!(ground.signed_distance(Vector3::new(0, 8, 0)), -2.0);
+    assert_eq!(ground.closest_point(Vector3::new(2, 13, 4)), Vector3::new(2.0, 10.0, 4.0));
+    assert_eq!(ground.project_vector(Vector3::new(2, 13, 4)), Vector3::new(2.0, 0.0, 4.0));
+
+    Ok(())
+}
 ```
 
 <a id="orientation"></a>
@@ -68,13 +80,18 @@ assert_eq!(ground.project_vector(Vector3::new(2, 13, 4)), Vector3::new(2.0, 0.0,
 `Plane` derives `Debug`, `Clone`, `Copy`, `PartialEq`. Equality is exact comparison of stored coefficients, including orientation, not approximate equality of geometric surfaces. A flipped plane usually compares unequal even though it contains the same points. Flipping twice restores the original coefficients.
 
 ```rust
-use yagmath::{Plane, vector::Vector3};
-let plane = Plane::from_normal_point(Vector3::new(0, 1, 0), Vector3::new(0, 10, 0)).unwrap();
-let flipped = plane.flipped();
-assert_eq!(flipped.signed_distance(Vector3::new(0, 13, 0)), -3.0);
-assert_eq!(flipped.closest_point(Vector3::new(2, 13, 4)), plane.closest_point(Vector3::new(2, 13, 4)));
-assert_eq!(flipped.flipped(), plane);
-assert_ne!(flipped, plane);
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    use yagmath::{Plane, vector::Vector3};
+    let plane = Plane::from_normal_point(Vector3::new(0, 1, 0), Vector3::new(0, 10, 0)).ok_or("cannot construct a plane from these inputs")?;
+    let flipped = plane.flipped();
+
+    assert_eq!(flipped.signed_distance(Vector3::new(0, 13, 0)), -3.0);
+    assert_eq!(flipped.closest_point(Vector3::new(2, 13, 4)), plane.closest_point(Vector3::new(2, 13, 4)));
+    assert_eq!(flipped.flipped(), plane);
+    assert_ne!(flipped, plane);
+
+    Ok(())
+}
 ```
 
 There is currently no ray/segment intersection, three-plane intersection, frustum or plane transformation API.

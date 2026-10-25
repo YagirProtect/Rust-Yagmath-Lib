@@ -8,17 +8,30 @@
 //! `Wrap` supports integer-to-integer conversions only, using Rust's `as` rules.
 //!
 //! ```
-//! use yagmath::{ConversionMode, RoundingMode};
+//! use yagmath::{ConversionError, ConversionMode, RoundingMode};
 //! use yagmath::vector::Vector2;
 //!
-//! let values = Vector2::new(300_i32, -130);
-//! assert_eq!(values.convert::<i8>(ConversionMode::Clamp).unwrap(), Vector2::new(127, -128));
-//! assert_eq!(values.convert::<i8>(ConversionMode::Wrap).unwrap(), Vector2::new(44, 126));
-//! assert!(values.convert::<i8>(ConversionMode::Checked).is_err());
+//! fn main() -> Result<(), ConversionError> {
+//!     let values = Vector2::new(300_i32, -130);
+//!     let clamped = values.convert::<i8>(ConversionMode::Clamp)?;
+//!     let wrapped = values.convert::<i8>(ConversionMode::Wrap)?;
 //!
-//! let values = Vector2::new(1.9_f64, -1.9);
-//! let rounded = values.convert_with_rounding::<i32>(ConversionMode::Checked, RoundingMode::Round).unwrap();
-//! assert_eq!(rounded, Vector2::new(2, -2));
+//!     assert_eq!(clamped, Vector2::new(127, -128));
+//!     assert_eq!(wrapped, Vector2::new(44, 126));
+//!
+//!     let checked = values.convert::<i8>(ConversionMode::Checked);
+//!
+//!     assert!(checked.is_err());
+//!
+//!     let values = Vector2::new(1.9_f64, -1.9);
+//!     let rounded = values.convert_with_rounding::<i32>(
+//!         ConversionMode::Checked, RoundingMode::Round,
+//!     )?;
+//!
+//!     assert_eq!(rounded, Vector2::new(2, -2));
+//!
+//!     Ok(())
+//! }
 //! ```
 
 mod floats;

@@ -217,31 +217,50 @@ assert_eq!(position.move_towards(Vector2::new(3, 4), 20.0), Vector2::new(3.0, 4.
 The methods above take radians. `rotated_deg` and `rotate_deg` have the same dimension-specific arguments but take degrees; full turns are reduced before conversion. New-copy methods accept `ToF64` components and return `Option<V<f64>>`. In-place methods exist on `f32/f64`, returning `Option<()>`; failure leaves self unchanged. Non-finite inputs/results fail. 2D positive rotation is counterclockwise (+X toward +Y). 3D uses a normalized axis through the origin and the right-hand rule; zero axes fail. 4D indices `0,1,2,3` mean `x,y,z,w`; positive rotation takes axis i toward j, preserving other coordinates. Equal or out-of-range indices fail.
 
 ```rust
-use yagmath::vector::{Vector2, Vector3, Vector4};
-use std::f64::consts::FRAC_PI_2;
-let v = Vector2::new(1, 0).rotated_rad(FRAC_PI_2).unwrap();
-assert!((v.y - 1.0).abs() < 1e-12);
-let v = Vector3::new(1, 0, 0).rotated_rad(FRAC_PI_2, Vector3::new(0, 0, 2)).unwrap();
-assert!((v.y - 1.0).abs() < 1e-12);
-let mut v = Vector4::new(1.0_f64, 0.0, 7.0, 8.0);
-v.rotate_rad(FRAC_PI_2, (0, 1)).unwrap();
-assert_eq!((v.z, v.w), (7.0, 8.0));
-assert!((v.y - 1.0).abs() < 1e-12);
-let mut v = Vector2::new(1.0_f32, 0.0);
-v.rotate_rad(FRAC_PI_2).unwrap();
-let mut v = Vector3::new(1.0_f64, 0.0, 0.0);
-v.rotate_rad(FRAC_PI_2, Vector3::<i32>::forward()).unwrap();
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    use yagmath::vector::{Vector2, Vector3, Vector4};
+    use std::f64::consts::FRAC_PI_2;
+    let v = Vector2::new(1, 0).rotated_rad(FRAC_PI_2).ok_or("invalid rotation or reflection input")?;
+
+    assert!((v.y - 1.0).abs() < 1e-12);
+
+    let v = Vector3::new(1, 0, 0).rotated_rad(FRAC_PI_2, Vector3::new(0, 0, 2)).ok_or("invalid rotation or reflection input")?;
+
+    assert!((v.y - 1.0).abs() < 1e-12);
+
+    let mut v = Vector4::new(1.0_f64, 0.0, 7.0, 8.0);
+    v.rotate_rad(FRAC_PI_2, (0, 1)).ok_or("invalid rotation or reflection input")?;
+
+    assert_eq!((v.z, v.w), (7.0, 8.0));
+    assert!((v.y - 1.0).abs() < 1e-12);
+
+    let mut v = Vector2::new(1.0_f32, 0.0);
+    v.rotate_rad(FRAC_PI_2).ok_or("invalid rotation or reflection input")?;
+    let mut v = Vector3::new(1.0_f64, 0.0, 0.0);
+    v.rotate_rad(FRAC_PI_2, Vector3::<i32>::forward()).ok_or("invalid rotation or reflection input")?;
+
+    Ok(())
+}
 ```
 
 ```rust
-use yagmath::vector::{Vector2, Vector3, Vector4};
-let v = Vector2::new(1, 0).rotated_deg(90.0).unwrap();
-assert!((v.y - 1.0).abs() < 1e-12);
-let v = Vector3::new(1, 0, 0).rotated_deg(90.0, Vector3::<i32>::forward()).unwrap();
-assert!((v.y - 1.0).abs() < 1e-12);
-let mut v = Vector4::new(1.0_f32, 0.0, 7.0, 8.0);
-v.rotate_deg(90.0, (0, 1)).unwrap();
-assert!((v.y - 1.0).abs() < 1e-6);
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    use yagmath::vector::{Vector2, Vector3, Vector4};
+    let v = Vector2::new(1, 0).rotated_deg(90.0).ok_or("invalid rotation or reflection input")?;
+
+    assert!((v.y - 1.0).abs() < 1e-12);
+
+    let v = Vector3::new(1, 0, 0).rotated_deg(90.0, Vector3::<i32>::forward()).ok_or("invalid rotation or reflection input")?;
+
+    assert!((v.y - 1.0).abs() < 1e-12);
+
+    let mut v = Vector4::new(1.0_f32, 0.0, 7.0, 8.0);
+    v.rotate_deg(90.0, (0, 1)).ok_or("invalid rotation or reflection input")?;
+
+    assert!((v.y - 1.0).abs() < 1e-6);
+
+    Ok(())
+}
 ```
 
 <a id="reflection"></a>
@@ -250,11 +269,18 @@ assert!((v.y - 1.0).abs() < 1e-6);
 `reflected(normal) -> Option<V<f64>>` returns `v - 2*dot(v,n)*n` with an automatically normalized normal. Works in 2D, 3D and 4D and accepts mixed scalar types. `reflect(normal) -> Option<()>` mutates only float vectors. Zero/non-finite normals, invalid vectors and result overflow fail; in-place failure preserves self. A zero input vector with a valid normal is valid. Reflects a direction about a surface through the origin, not a point about an offset plane.
 
 ```rust
-use yagmath::vector::Vector2;
-assert_eq!(Vector2::new(1, -1).reflected(Vector2::new(0, 5)), Some(Vector2::new(1.0, 1.0)));
-let mut velocity = Vector2::new(1.0_f64, -1.0);
-velocity.reflect(Vector2::new(0, 1)).unwrap();
-assert_eq!(velocity, Vector2::new(1.0, 1.0));
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    use yagmath::vector::Vector2;
+
+    assert_eq!(Vector2::new(1, -1).reflected(Vector2::new(0, 5)), Some(Vector2::new(1.0, 1.0)));
+
+    let mut velocity = Vector2::new(1.0_f64, -1.0);
+    velocity.reflect(Vector2::new(0, 1)).ok_or("invalid rotation or reflection input")?;
+
+    assert_eq!(velocity, Vector2::new(1.0, 1.0));
+
+    Ok(())
+}
 ```
 
 <a id="limits"></a>

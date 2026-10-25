@@ -23,18 +23,29 @@ Methods require `T: PartialOrd + ToF64`.
 Zero sizes are allowed. Negative coordinates are allowed; a negative **size** or reversed min/max is a separate issue. Sorting preserves integer corner values without round-tripping through f64.
 
 ```rust
-use yagmath::bounds::{Bounds2, Bounds3};
-use yagmath::vector::{Vector2, Vector3};
-let rect = Bounds2::new(Vector2::new(-5, -2), Vector2::new(5, 8)).unwrap();
-assert!(rect.contains(Vector2::new(-5, -2)));
-let sorted = Bounds2::from_start_end(Vector2::new(10, 0), Vector2::new(0, 20)).unwrap();
-assert_eq!(sorted.min, Vector2::new(0, 0));
-assert_eq!(sorted.max, Vector2::new(10, 20));
-let centered = Bounds2::from_center_size(Vector2::new(5, 10), Vector2::new(3, 6)).unwrap();
-assert_eq!(centered.min, Vector2::new(3.5, 7.0));
-assert_eq!(centered.max, Vector2::new(6.5, 13.0));
-let box3 = Bounds3::new(Vector3::new(0, 0, 0), Vector3::new(1, 2, 3)).unwrap();
-assert!(box3.contains(Vector3::new(1, 2, 3)));
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    use yagmath::bounds::{Bounds2, Bounds3};
+    use yagmath::vector::{Vector2, Vector3};
+    let rect = Bounds2::new(Vector2::new(-5, -2), Vector2::new(5, 8)).ok_or("invalid bounds or point")?;
+
+    assert!(rect.contains(Vector2::new(-5, -2)));
+
+    let sorted = Bounds2::from_start_end(Vector2::new(10, 0), Vector2::new(0, 20)).ok_or("invalid bounds or point")?;
+
+    assert_eq!(sorted.min, Vector2::new(0, 0));
+    assert_eq!(sorted.max, Vector2::new(10, 20));
+
+    let centered = Bounds2::from_center_size(Vector2::new(5, 10), Vector2::new(3, 6)).ok_or("invalid bounds or point")?;
+
+    assert_eq!(centered.min, Vector2::new(3.5, 7.0));
+    assert_eq!(centered.max, Vector2::new(6.5, 13.0));
+
+    let box3 = Bounds3::new(Vector3::new(0, 0, 0), Vector3::new(1, 2, 3)).ok_or("invalid bounds or point")?;
+
+    assert!(box3.contains(Vector3::new(1, 2, 3)));
+
+    Ok(())
+}
 ```
 
 <a id="queries"></a>
@@ -52,18 +63,25 @@ assert!(box3.contains(Vector3::new(1, 2, 3)));
 `center` and `size` convert to f64; wide integer values can round. Other queries use the stored scalar for comparisons. Integer bounds from zero to nine have geometric size nine; counting ten occupied cells is a separate application calculation.
 
 ```rust
-use yagmath::bounds::Bounds2;
-use yagmath::vector::Vector2;
-let bounds = Bounds2::new(Vector2::new(0, 0), Vector2::new(10, 20)).unwrap();
-assert!(bounds.is_valid());
-assert_eq!(bounds.center(), Some(Vector2::new(5.0, 10.0)));
-assert_eq!(bounds.size(), Some(Vector2::new(10.0, 20.0)));
-assert!(bounds.contains(Vector2::new(10, 20)));
-assert!(!bounds.contains(Vector2::new(11, 20)));
-assert_eq!(bounds.closest_point(Vector2::new(15, -3)), Some(Vector2::new(10, 0)));
-assert_eq!(bounds.closest_point(Vector2::new(2, 3)), Some(Vector2::new(2, 3)));
-let touching = Bounds2::new(Vector2::new(10, 20), Vector2::new(30, 40)).unwrap();
-assert!(bounds.intersects(&touching));
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    use yagmath::bounds::Bounds2;
+    use yagmath::vector::Vector2;
+    let bounds = Bounds2::new(Vector2::new(0, 0), Vector2::new(10, 20)).ok_or("invalid bounds or point")?;
+
+    assert!(bounds.is_valid());
+    assert_eq!(bounds.center(), Some(Vector2::new(5.0, 10.0)));
+    assert_eq!(bounds.size(), Some(Vector2::new(10.0, 20.0)));
+    assert!(bounds.contains(Vector2::new(10, 20)));
+    assert!(!bounds.contains(Vector2::new(11, 20)));
+    assert_eq!(bounds.closest_point(Vector2::new(15, -3)), Some(Vector2::new(10, 0)));
+    assert_eq!(bounds.closest_point(Vector2::new(2, 3)), Some(Vector2::new(2, 3)));
+
+    let touching = Bounds2::new(Vector2::new(10, 20), Vector2::new(30, 40)).ok_or("invalid bounds or point")?;
+
+    assert!(bounds.intersects(&touching));
+
+    Ok(())
+}
 ```
 
 <a id="expansion"></a>
@@ -72,12 +90,17 @@ assert!(bounds.intersects(&touching));
 `encapsulate(&mut self, point) -> Option<()>` expands min/max just enough to include a point. Requires T: Copy. Invalid existing bounds or non-finite points fail without mutation. This method includes one point; it is not a union-with-bounds method.
 
 ```rust
-use yagmath::bounds::Bounds2;
-use yagmath::vector::Vector2;
-let mut bounds = Bounds2::new(Vector2::new(0, 0), Vector2::new(10, 20)).unwrap();
-bounds.encapsulate(Vector2::new(-5, 30)).unwrap();
-assert_eq!(bounds.min, Vector2::new(-5, 0));
-assert_eq!(bounds.max, Vector2::new(10, 30));
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    use yagmath::bounds::Bounds2;
+    use yagmath::vector::Vector2;
+    let mut bounds = Bounds2::new(Vector2::new(0, 0), Vector2::new(10, 20)).ok_or("invalid bounds or point")?;
+    bounds.encapsulate(Vector2::new(-5, 30)).ok_or("invalid bounds or point")?;
+
+    assert_eq!(bounds.min, Vector2::new(-5, 0));
+    assert_eq!(bounds.max, Vector2::new(10, 30));
+
+    Ok(())
+}
 ```
 
 <a id="validity"></a>
