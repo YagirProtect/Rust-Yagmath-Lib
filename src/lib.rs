@@ -1,3 +1,5 @@
+#![cfg_attr(not(feature = "std"), no_std)]
+
 //! Game-oriented vector math and geometry with explicit numeric conversion policies.
 //!
 //! Start with [`vector::Vector2`], [`vector::Vector3`], [`vector::Vector4`],
@@ -21,7 +23,15 @@
 //! planes, segment intersections and conversion policies/errors. Generic
 //! components need only the corresponding Serde trait, not numeric traits.
 //! Bounds restore public corners without validation; Plane validates its private
-//! unit-normal and finite-offset invariants. Default builds have no dependencies.
+//! unit-normal and finite-offset invariants. Default std builds have no external dependencies.
+//!
+//! # Embedded targets
+//!
+//! The default `std` feature uses standard float operations. Disable defaults and
+//! enable `no_std` for libm math without a heap allocator. Add `serde` for optional
+//! allocation-free serialization implementations. If both backends are enabled,
+//! std takes precedence. At least one backend must be enabled. Geometry still
+//! returns f64; float results can differ in their last bits between backends.
 //!
 //! # Example
 //!
@@ -39,7 +49,18 @@
 //! The repository's `README.md` and `docs/` contain the full method cookbook,
 //! illustrated geometry, design notes and validation instructions.
 
+#[cfg(not(any(feature = "std", feature = "libm")))]
+compile_error!("enable the default `std` feature or use --no-default-features --features no_std");
+
+// Unit tests use the host test runner while the numeric backend still follows features.
+#[cfg(test)]
+#[macro_use]
+extern crate std;
+
+mod float_math;
+
 pub mod vector;
+pub use vector::VectorComponent;
 pub mod bounds;
 pub mod plane;
 pub use plane::Plane;
@@ -69,6 +90,8 @@ mod guide_examples {
     #[cfg(feature = "serde")]
     #[doc = include_str!("../docs/serde.md")]
     mod serialization {}
+    #[doc = include_str!("../docs/no_std.md")]
+    mod no_std {}
 }
 #[cfg(test)]
 mod tests;

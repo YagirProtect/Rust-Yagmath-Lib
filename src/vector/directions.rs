@@ -1,5 +1,5 @@
 use super::{Vector2, Vector3, Vector4};
-use std::ops::Neg;
+use core::ops::Neg;
 
 // Числовые типы предоставляют значения 0 и 1 через этот трейт.
 /// Zero and one for direction constructors, implemented for all 14 numeric types.

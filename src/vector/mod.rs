@@ -15,6 +15,7 @@
 //! ```
 
 mod basic_operations;
+mod component;
 mod cross;
 mod convert;
 mod directions;
@@ -38,3 +39,4 @@ mod slerp;
 
 pub use vector::{Vector2, Vector3, Vector4};
 pub use directions::DirectionScalar;
+pub use component::VectorComponent;

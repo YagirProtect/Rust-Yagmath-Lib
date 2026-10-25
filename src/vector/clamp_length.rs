@@ -38,7 +38,7 @@ macro_rules! impl_clamp_length {
                 )+
                 let mut scaled_length = 0.0_f64;
                 $(
-                    scaled_length = scaled_length.hypot(vector.$field / scale);
+                    scaled_length = FloatMath::hypot(scaled_length, vector.$field / scale);
                 )+
 
                 Some($name::<f64> {

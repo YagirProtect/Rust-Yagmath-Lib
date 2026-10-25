@@ -8,13 +8,14 @@
 ## Source layout
 
 ```text
-Cargo.toml                 Package yagmath, edition 2024, optional Serde dependency
+Cargo.toml                 Package yagmath, edition 2024, optional Serde/libm dependencies
 .github/workflows/rust.yml GitHub Actions: Linux/Windows builds, tests and documentation
 README.md                 Project overview and documentation entry point
 docs/                     Linked cookbook, API inventory, numeric policies, SVGs
 scripts/check_docs.py      Local Markdown link/anchor and SVG validation (Python stdlib)
 src/
-  lib.rs                  Public modules, root re-exports, doctest cookbook imports
+  lib.rs                  Feature selection, public modules, doctest cookbook imports
+  float_math.rs           Private std/libm float adapter
   vector/
     vector.rs             create_vector! and Vector2/3/4 declarations
     basic_operations.rs   Add/Sub/Mul/Div and assignment traits
@@ -34,6 +35,7 @@ src/
     clamp_length.rs       Maximum magnitude
     rounds.rs             floor/ceil/round
     convert.rs            Component conversion entry points
+    component.rs          Compact VectorComponent enum and string-format Serde adapter
     display.rs            Tuple-like Display
   bounds/bounds.rs        create_bounds! and Bounds2/3
   plane/plane.rs          Plane and private numeric helpers
@@ -87,7 +89,7 @@ cargo test tests::vector::slerp
 cargo test tests::plane
 ```
 
-The suite contains **232 unit tests**, plus **10 serialization tests** when the
+The suite contains **237 unit tests**, plus **11 serialization tests** when the
 `serde` feature is enabled, and executable documentation examples. Totals grow as
 examples/tests are added; command output is authoritative. This is a test count,
 not a coverage percentage or a claim that every possible numeric input has been proved correct.
@@ -146,8 +148,7 @@ When adding a method:
 
 GitHub Actions is configured in [rust.yml](../.github/workflows/rust.yml). Pushes to
 master, pull requests targeting master, and manual dispatch run the same checks on
-`ubuntu-latest` and `windows-latest` with stable Rust, both without optional
-features and with `serde` enabled. The workflow builds all
+`ubuntu-latest` and `windows-latest` with stable Rust, using std and libm backends, each with and without Serde, plus an all-features build. The workflow builds all
 targets, runs debug/release tests (including doctests), builds strict rustdoc and
 checks handbook links/SVG XML. Python 3.12 is installed only for the documentation
 checker. Cargo commands use --locked to keep the checked-in lockfile unchanged.
@@ -175,3 +176,14 @@ README links use absolute GitHub URLs and its overview image uses a raw file URL
 so rendering the README outside GitHub does not depend on relative-path rewriting.
 The handbook's internal links remain relative for local browsing. Build the API
 reference locally with cargo doc; the linked handbook is not generated rustdoc.
+
+## Embedded validation
+
+See [no_std](no_std.md) for feature combinations and cross-build commands.
+The host matrix exercises std, std+serde, no_std, no_std+serde and combined features in
+debug and release. The no_std feature selects libm. The embedded job builds no_std and no_std+serde for the
+thumbv6m-none-eabi Cortex-M0 target without an operating system. Library code
+requires neither std nor alloc in those builds. Host tests still use std for
+the test runner and fixtures; explicit FloatMath calls keep the selected libm
+backend active. Numerical backend tests cover rounding ties/signed zero,
+Euclidean remainder, large angles, subnormal magnitudes, infinity and NaN.

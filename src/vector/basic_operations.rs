@@ -5,7 +5,7 @@
 /// Division propagates the first failed component with ?, returning no partial vector.
 macro_rules! impl_basic_operations {
     ($name:ident, $($field:ident),+) => {
-        impl<T> std::ops::AddAssign for $name<T>
+        impl<T> core::ops::AddAssign for $name<T>
         where
             T: crate::extensions::add::t_safe_add::SafeAdd,
         {
@@ -17,7 +17,7 @@ macro_rules! impl_basic_operations {
             }
         }
 
-        impl<T> std::ops::SubAssign for $name<T>
+        impl<T> core::ops::SubAssign for $name<T>
         where
             T: crate::extensions::sub::t_safe_sub::SafeSub,
         {
@@ -29,7 +29,7 @@ macro_rules! impl_basic_operations {
             }
         }
 
-        impl<T> std::ops::MulAssign for $name<T>
+        impl<T> core::ops::MulAssign for $name<T>
         where
             T: crate::extensions::mul::t_safe_mul::SafeMul,
         {
@@ -41,7 +41,7 @@ macro_rules! impl_basic_operations {
             }
         }
 
-        impl<T> std::ops::MulAssign<T> for $name<T>
+        impl<T> core::ops::MulAssign<T> for $name<T>
         where
             T: crate::extensions::mul::t_safe_mul::SafeMul + Copy,
         {
@@ -53,7 +53,7 @@ macro_rules! impl_basic_operations {
             }
         }
 
-        impl<T> std::ops::Add for $name<T>
+        impl<T> core::ops::Add for $name<T>
         where
             T: crate::extensions::add::t_safe_add::SafeAdd,
         {
@@ -68,7 +68,7 @@ macro_rules! impl_basic_operations {
            }
         }
 
-        impl<T> std::ops::Sub for $name<T>
+        impl<T> core::ops::Sub for $name<T>
         where
             T: crate::extensions::sub::t_safe_sub::SafeSub,
         {
@@ -83,7 +83,7 @@ macro_rules! impl_basic_operations {
            }
         }
 
-        impl<T> std::ops::Mul for $name<T>
+        impl<T> core::ops::Mul for $name<T>
         where
             T: crate::extensions::mul::t_safe_mul::SafeMul,
         {
@@ -98,7 +98,7 @@ macro_rules! impl_basic_operations {
             }
         }
 
-        impl<T> std::ops::Div for $name<T>
+        impl<T> core::ops::Div for $name<T>
         where
             T: crate::extensions::div::t_safe_div::SafeDiv,
         {
@@ -114,7 +114,7 @@ macro_rules! impl_basic_operations {
            }
         }
 
-        impl<T> std::ops::Mul<T> for $name<T>
+        impl<T> core::ops::Mul<T> for $name<T>
         where
             T: crate::extensions::mul::t_safe_mul::SafeMul + Copy,
         {
@@ -129,7 +129,7 @@ macro_rules! impl_basic_operations {
             }
         }
 
-        impl<T> std::ops::Div<T> for $name<T>
+        impl<T> core::ops::Div<T> for $name<T>
         where
             T: crate::extensions::div::t_safe_div::SafeDiv + Copy,
         {

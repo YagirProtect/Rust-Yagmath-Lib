@@ -78,7 +78,7 @@ macro_rules! impl_slerp {
                     if scale == 0.0 { return invalid(); }
                     tangent = $name { $($field: tangent.$field / scale,)+ };
                     let length = tangent.length();
-                    let (sin, cos) = (angle * t).sin_cos();
+                    let (sin, cos) = FloatMath::sin_cos(angle * t);
                     $name { $($field: a.$field * cos + (tangent.$field / length) * sin,)+ }
                 };
 

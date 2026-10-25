@@ -15,7 +15,10 @@ fn subnormal_vectors_with_multiple_components_produce_unit_directions() {
     assert!((v.z + v.x).abs() < 1e-12);
 
     let v = Vector4::new(tiny, tiny, -tiny, -tiny).normalized().unwrap();
-    assert_eq!(v, Vector4::new(0.5, 0.5, -0.5, -0.5));
+    for (actual, expected) in [(v.x, 0.5), (v.y, 0.5), (v.z, -0.5), (v.w, -0.5)] {
+        assert!((actual - expected).abs() < 1e-12);
+    }
+    assert!((v.length() - 1.0).abs() < 1e-12);
 }
 
 #[test]

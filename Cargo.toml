@@ -15,11 +15,15 @@ exclude = ["scripts/"]
 all-features = true
 
 [features]
-default = []
+default = ["std"]
+std = ["serde?/std"]
+no_std = ["libm"]
+libm = ["dep:libm"]
 serde = ["dep:serde"]
 
 [dependencies]
-serde = { version = "1", features = ["derive"], optional = true }
+serde = { version = "1", default-features = false, features = ["derive"], optional = true }
+libm = { version = "0.2", optional = true }
 
 [dev-dependencies]
 serde_json = { version = "1", features = ["float_roundtrip"] }

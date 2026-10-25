@@ -29,7 +29,7 @@ macro_rules! impl_convert {
                     $(
                         $field: U::convert_from(&self.$field, mode, rounding)
                             .map_err(|kind| crate::conversion::ConversionError {
-                                component: stringify!($field),
+                                component: super::component::component_for_field!($field),
                                 kind,
                             })?,
                     )+

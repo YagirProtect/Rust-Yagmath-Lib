@@ -1,3 +1,4 @@
+use crate::float_math::FloatMath;
 use super::{Vector2, Vector3, Vector4};
 use crate::extensions::to_f64::t_to_f64::ToF64;
 
@@ -17,7 +18,7 @@ impl<T: ToF64> Vector2<T> {
         if !angle.is_finite() || !x.is_finite() || !y.is_finite() {
             return None;
         }
-        let (s, c) = angle.sin_cos();
+        let (s, c) = FloatMath::sin_cos(angle);
         let result = Vector2::new(x * c - y * s, x * s + y * c);
         (result.x.is_finite() && result.y.is_finite()).then_some(result)
     }
@@ -61,7 +62,7 @@ impl<T: ToF64> Vector3<T> {
             return Some(v);
         }
         let v = Vector3::new(v.x / scale, v.y / scale, v.z / scale);
-        let (s, c) = angle.sin_cos();
+        let (s, c) = FloatMath::sin_cos(angle);
         let cross = k.cross(v);
         let projection = k.dot(v) * (1.0 - c);
         let result = Vector3::new(
@@ -99,7 +100,7 @@ impl<T: ToF64> Vector4<T> {
         {
             return None;
         }
-        let (s, c) = angle.sin_cos();
+        let (s, c) = FloatMath::sin_cos(angle);
         let a = values[i];
         let b = values[j];
         values[i] = a * c - b * s;

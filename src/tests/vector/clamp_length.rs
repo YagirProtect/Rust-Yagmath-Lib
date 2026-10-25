@@ -119,7 +119,10 @@ fn very_large_finite_vectors_can_be_limited_even_if_length_overflows() {
     let r = Vector4::new(f64::MAX, f64::MAX, -f64::MAX, -f64::MAX)
         .clamp_length_max(2.0)
         .unwrap();
-    assert_eq!(r, Vector4::new(1.0, 1.0, -1.0, -1.0));
+    for (actual, expected) in [(r.x, 1.0), (r.y, 1.0), (r.z, -1.0), (r.w, -1.0)] {
+        close(actual, expected);
+    }
+    close(r.length(), 2.0);
 }
 
 #[test]

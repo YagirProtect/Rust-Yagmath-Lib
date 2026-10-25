@@ -1,3 +1,20 @@
+use crate::VectorComponent;
+
+#[test]
+fn component_identifiers_are_compact_and_format_as_field_names() {
+    assert_eq!(core::mem::size_of::<VectorComponent>(), 1);
+    assert_eq!(core::mem::size_of::<crate::ConversionError>(), 2);
+    for (component, name) in [
+        (VectorComponent::X, "x"),
+        (VectorComponent::Y, "y"),
+        (VectorComponent::Z, "z"),
+        (VectorComponent::W, "w"),
+    ] {
+        assert_eq!(component.as_str(), name);
+        assert_eq!(component.to_string(), name);
+    }
+}
+use std::string::ToString;
 use crate::conversion::{ConversionErrorKind, ConversionMode, RoundingMode};
 use crate::vector::{Vector2, Vector3, Vector4};
 
@@ -71,7 +88,7 @@ fn narrowing_integer_modes_produce_explicit_results() {
         Vector2::new(44, 126)
     );
     let error = v.convert::<i8>(ConversionMode::Checked).unwrap_err();
-    assert_eq!(error.component, "x");
+    assert_eq!(error.component, VectorComponent::X);
     assert_eq!(error.kind, ConversionErrorKind::OutOfRange);
     assert_eq!(v, Vector2::new(300, -130));
 
@@ -412,7 +429,7 @@ fn errors_identify_the_first_failing_component_without_changing_source() {
         a.convert::<i8>(ConversionMode::Checked)
             .unwrap_err()
             .component,
-        "y"
+        VectorComponent::Y
     );
     assert_eq!(a, Vector2::new(1, 300));
     let b = Vector3::new(1_i32, 2, 300);
@@ -420,11 +437,11 @@ fn errors_identify_the_first_failing_component_without_changing_source() {
         b.convert::<i8>(ConversionMode::Checked)
             .unwrap_err()
             .component,
-        "z"
+        VectorComponent::Z
     );
     let c = Vector4::new(1_i32, 2, 3, 300);
     let error = c.convert::<i8>(ConversionMode::Checked).unwrap_err();
-    assert_eq!(error.component, "w");
+    assert_eq!(error.component, VectorComponent::W);
     assert_eq!(
         error.to_string(),
         "component w: value is outside the target range"

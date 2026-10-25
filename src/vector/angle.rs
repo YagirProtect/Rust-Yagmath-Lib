@@ -36,14 +36,14 @@ macro_rules! impl_angle {
                     {
                         let a = a.$field / a_length;
                         let b = b.$field / b_length;
-                        difference_length = difference_length.hypot(a - b);
-                        sum_length = sum_length.hypot(a + b);
+                        difference_length = FloatMath::hypot(difference_length, a - b);
+                        sum_length = FloatMath::hypot(sum_length, a + b);
                     }
                 )+
 
                 // Half-angle formula keeps precision near both 0 and PI,
                 // where acos of the dot product loses accuracy.
-                2.0 * difference_length.atan2(sum_length)
+                2.0 * FloatMath::atan2(difference_length, sum_length)
             }
 
             /// Unsigned angle between directions in degrees `[0, 180]`.

@@ -2,7 +2,7 @@
 
 [![Rust CI](https://github.com/YagirProtect/Rust-Yagmath-Lib/actions/workflows/rust.yml/badge.svg)](https://github.com/YagirProtect/Rust-Yagmath-Lib/actions/workflows/rust.yml)
 
-Generic Rust vector math and geometry for games: **2D/3D/4D vectors, axis-aligned bounds, 3D planes, interpolation, smoothing and explicit numeric conversions**. No external dependencies by default; optional Serde support.
+Generic Rust vector math and geometry for games: **2D/3D/4D vectors, axis-aligned bounds, 3D planes, interpolation, smoothing and explicit numeric conversions**. No external dependencies by default; optional Serde and no_std support with libm.
 
 [Documentation index](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/README.md) · [API map](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/api.md) · [Numeric behavior](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/numerics.md) · [Tests and architecture](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/development.md)
 
@@ -38,6 +38,18 @@ bounds, planes, conversions and error handling.
 
 ## Documentation
 
+For embedded Rust, disable the default `std` feature and enable `no_std`:
+
+```toml
+[dependencies]
+yagmath = { path = "../math_utils", default-features = false, features = ["no_std"] }
+```
+
+This configuration requires the source checkout until a new registry release.
+It also supports `features = ["no_std", "serde"]` without a heap allocator.
+See the [no_std guide](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/no_std.md)
+for feature combinations, target checks and microcontroller considerations.
+
 For saving/loading vectors, bounds and other data, enable optional Serde support:
 
 ```toml
@@ -60,6 +72,7 @@ introduced in version 0.1.2.
 | Integer/float conversion with Checked, Clamp, Wrap and rounding | [Conversion](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/conversion.md) |
 | Arithmetic policies for numbers and custom scalar types | [Extensions](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/extensions.md) |
 | Optional serialization, JSON formats and loading validation | [Serde](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/serde.md) |
+| Embedded targets, libm and builds without an allocator | [no_std](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/no_std.md) |
 | Exact method names, modules and return types | [API map](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/api.md) |
 
 ## Structures and conventions

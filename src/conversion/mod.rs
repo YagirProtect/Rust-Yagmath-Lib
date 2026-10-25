@@ -34,6 +34,9 @@
 //! }
 //! ```
 
+use crate::float_math::FloatMath;
+use crate::vector::VectorComponent;
+
 mod floats;
 mod integers;
 
@@ -69,10 +72,10 @@ impl RoundingMode {
     /// NaN/infinity stay non-finite so the caller can apply its selected mode.
     fn apply(self, value: f64) -> f64 {
         match self {
-            Self::Truncate => value.trunc(),
-            Self::Round => value.round(),
-            Self::Floor => value.floor(),
-            Self::Ceil => value.ceil(),
+            Self::Truncate => FloatMath::trunc(value),
+            Self::Round => FloatMath::round(value),
+            Self::Floor => FloatMath::floor(value),
+            Self::Ceil => FloatMath::ceil(value),
         }
     }
 }
@@ -93,45 +96,19 @@ pub enum ConversionErrorKind {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 /// The first failing vector component and its conversion error.
-/// Implements Display and std::error::Error.
+/// Implements Display and core::error::Error.
 /// With `serde`, deserialization accepts only component names x, y, z and w.
-#[cfg_attr(feature = "serde", derive(serde::Serialize))]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct ConversionError {
-    /// Component name: x, y, z or w. Components are checked in field order.
-    pub component: &'static str,
+    /// Failed coordinate. Components are checked in field order.
+    pub component: VectorComponent,
     /// Reason the component could not be converted.
     pub kind: ConversionErrorKind,
 }
 
-#[cfg(feature = "serde")]
-impl<'de> serde::Deserialize<'de> for ConversionError {
-    /// Maps an owned component name to a static field name without leaking
-    /// allocations or requiring a static input buffer during decoding.
-    fn deserialize<D: serde::Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
-        /// Wire representation with owned text so readers need no borrowed buffer.
-        #[derive(serde::Deserialize)]
-        #[serde(rename = "ConversionError")]
-        struct StoredError {
-            /// Field name to validate and map to a static identifier.
-            component: String,
-            /// Scalar conversion failure.
-            kind: ConversionErrorKind,
-        }
-        let stored = StoredError::deserialize(deserializer)?;
-        let component = match stored.component.as_str() {
-            "x" => "x",
-            "y" => "y",
-            "z" => "z",
-            "w" => "w",
-            _ => return Err(serde::de::Error::custom("expected component x, y, z or w")),
-        };
-        Ok(Self { component, kind: stored.kind })
-    }
-}
-
-impl std::fmt::Display for ConversionErrorKind {
+impl core::fmt::Display for ConversionErrorKind {
     /// Writes a human-readable conversion failure; vector errors include the field name.
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         f.write_str(match self {
             Self::OutOfRange => "value is outside the target range",
             Self::PrecisionLoss => "value cannot be represented exactly",
@@ -141,14 +118,14 @@ impl std::fmt::Display for ConversionErrorKind {
     }
 }
 
-impl std::fmt::Display for ConversionError {
+impl core::fmt::Display for ConversionError {
     /// Writes a human-readable conversion failure; vector errors include the field name.
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         write!(f, "component {}: {}", self.component, self.kind)
     }
 }
 
-impl std::error::Error for ConversionError {}
+impl core::error::Error for ConversionError {}
 
 /// Converts a scalar; vector conversions attach the failing component's name.
 pub trait ConvertFrom<T>: Sized {

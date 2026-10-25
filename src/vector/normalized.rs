@@ -23,7 +23,7 @@ macro_rules! impl_normalized {
                     )+
                     let mut scaled_length = 0.0_f64;
                     $(
-                        scaled_length = scaled_length.hypot(self.$field.to_f64() / scale);
+                        scaled_length = FloatMath::hypot(scaled_length, self.$field.to_f64() / scale);
                     )+
                     return Some($name::<f64> {
                         $(

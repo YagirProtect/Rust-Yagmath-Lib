@@ -1,3 +1,4 @@
+use std::string::String;
 use crate::vector::{Vector2, Vector3, Vector4};
 
 #[test]

@@ -3,15 +3,15 @@
 /// comma and space. Forwarding the Formatter preserves requested scalar formatting.
 macro_rules! impl_display {
     ($name:ident, $first:ident $(, $field:ident)*) => {
-        impl<T: std::fmt::Display> std::fmt::Display for $name<T> {
+        impl<T: core::fmt::Display> core::fmt::Display for $name<T> {
             /// Formats the first coordinate, then comma-separated remaining coordinates.
             /// Reuse the caller Formatter so scalar precision/format settings are forwarded.
-            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
                 f.write_str("(")?;
-                std::fmt::Display::fmt(&self.$first, f)?;
+                core::fmt::Display::fmt(&self.$first, f)?;
                 $(
                     f.write_str(", ")?;
-                    std::fmt::Display::fmt(&self.$field, f)?;
+                    core::fmt::Display::fmt(&self.$field, f)?;
                 )*
                 f.write_str(")")
             }

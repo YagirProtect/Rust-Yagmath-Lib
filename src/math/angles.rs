@@ -1,6 +1,6 @@
 use super::Math;
 use crate::extensions::to_f64::t_to_f64::ToF64;
-use std::f64::consts::TAU;
+use core::f64::consts::TAU;
 
 impl Math {
     /// Shortest signed angular difference in radians, in (-PI, PI].

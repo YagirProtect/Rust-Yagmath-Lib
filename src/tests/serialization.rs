@@ -1,3 +1,26 @@
+use crate::VectorComponent;
+
+#[test]
+fn component_enum_keeps_the_existing_string_wire_format() {
+    for (component, name) in [
+        (VectorComponent::X, "x"),
+        (VectorComponent::Y, "y"),
+        (VectorComponent::Z, "z"),
+        (VectorComponent::W, "w"),
+    ] {
+        assert_eq!(serde_json::to_string(&component).unwrap(), format!("\"{name}\""));
+        round_trip(component);
+    }
+    let error = ConversionError {
+        component: VectorComponent::Y,
+        kind: ConversionErrorKind::OutOfRange,
+    };
+    assert_eq!(serde_json::to_string(&error).unwrap(), r#"{"component":"y","kind":"OutOfRange"}"#);
+    for invalid in [r#""X""#, r#""unknown""#, "0", "null"] {
+        assert!(serde_json::from_str::<VectorComponent>(invalid).is_err());
+    }
+}
+use std::string::String;
 use crate::bounds::{Bounds2, Bounds3};
 use crate::vector::{Vector2, Vector3, Vector4};
 use crate::{
@@ -155,7 +178,7 @@ fn conversion_policies_and_error_kinds_round_trip() {
         ConversionErrorKind::UnsupportedMode,
     ] {
         round_trip(kind);
-        for component in ["x", "y", "z", "w"] {
+        for component in [VectorComponent::X, VectorComponent::Y, VectorComponent::Z, VectorComponent::W] {
             round_trip(ConversionError { component, kind });
         }
     }
@@ -166,7 +189,11 @@ fn conversion_errors_decode_owned_input_without_a_static_input_lifetime() {
     let json = String::from(r#"{"component":"z","kind":"OutOfRange"}"#);
     let error = serde_json::from_str::<ConversionError>(&json).unwrap();
     drop(json);
-    assert_eq!(error.component, "z");
+    assert_eq!(error.component, VectorComponent::Z);
+    let escaped: ConversionError = serde_json::from_str(
+        r#"{"component":"\u0078","kind":"OutOfRange"}"#,
+    ).unwrap();
+    assert_eq!(escaped.component, VectorComponent::X);
     assert!(
         serde_json::from_str::<ConversionError>(r#"{"component":"unknown","kind":"OutOfRange"}"#)
             .is_err()

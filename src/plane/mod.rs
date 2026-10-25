@@ -2,7 +2,7 @@
 //! The stored normal is unit length. Coordinates and results use f64.
 //!
 //! ```
-//! fn main() -> Result<(), Box<dyn std::error::Error>> {
+//! fn main() -> Result<(), Box<dyn core::error::Error>> {
 //!     use yagmath::{Plane, vector::Vector3};
 //!
 //!     let ground = Plane::from_normal_point(

@@ -12,7 +12,7 @@ macro_rules! impl_distance {
 
                 $(
                     let delta = self.$field.to_f64() - rhs.$field.to_f64();
-                    distance = distance.hypot(delta);
+                    distance = FloatMath::hypot(distance, delta);
                 )+
 
 

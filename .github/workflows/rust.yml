@@ -26,7 +26,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-        features: [default, serde]
+        features: [std, "std,serde", no_std, "no_std,serde", "std,no_std,serde"]
 
     steps:
       - name: Checkout
@@ -58,3 +58,22 @@ jobs:
 
       - name: Check handbook links and SVG files
         run: python scripts/check_docs.py
+
+  embedded:
+    name: Build without an OS (${{ matrix.features }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        features: [no_std, "no_std,serde"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Install stable Rust with Cortex-M0 target
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: thumbv6m-none-eabi
+      - name: Build no_std library
+        run: cargo build --locked --lib --target thumbv6m-none-eabi --no-default-features --features ${{ matrix.features }}

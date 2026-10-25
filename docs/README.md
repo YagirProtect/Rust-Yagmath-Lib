@@ -15,6 +15,7 @@ This is a linked Markdown handbook. Relative links work in GitHub and ordinary M
 | [Serde](serde.md) | Optional serialization, formats and validation on loading |
 | [Numeric behavior](numerics.md) | Precision, invalid inputs, overflow and return conventions |
 | [API map](api.md) | Compact inventory for humans and coding assistants |
+| [no_std](no_std.md) | Embedded targets, feature selection, libm and builds without an allocator |
 | [Development](development.md) | Source layout, macro expansion, tests and documentation checks |
 
 Start with [numeric conventions](numerics.md#conventions) before porting arithmetic from another crate. Illustrations are editable, self-contained SVGs in [assets](assets/geometry.svg); they show schematic geometry rather than measured plots.

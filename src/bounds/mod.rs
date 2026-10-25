@@ -4,7 +4,7 @@
 //! Center and size use f64; very wide integer coordinates may lose precision.
 //!
 //! ```
-//! fn main() -> Result<(), Box<dyn std::error::Error>> {
+//! fn main() -> Result<(), Box<dyn core::error::Error>> {
 //!     use yagmath::bounds::Bounds2;
 //!     use yagmath::vector::Vector2;
 //!
@@ -23,7 +23,7 @@
 //! ```
 //!
 //! ```
-//! fn main() -> Result<(), Box<dyn std::error::Error>> {
+//! fn main() -> Result<(), Box<dyn core::error::Error>> {
 //!     use yagmath::bounds::Bounds2;
 //!     use yagmath::vector::Vector2;
 //!

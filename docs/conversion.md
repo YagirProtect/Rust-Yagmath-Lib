@@ -116,7 +116,14 @@ fn main() -> Result<(), ConversionError> {
 <a id="errors"></a>
 ## ConversionError and ConversionErrorKind
 
-`ConversionError` has public fields `component: &'static str` and `kind: ConversionErrorKind`. It implements Display and `std::error::Error`; all policy/error types derive Debug, Clone, Copy, PartialEq and Eq.
+`ConversionError` has public fields `component: VectorComponent` and `kind: ConversionErrorKind`. It implements Display and `core::error::Error`; all policy/error types derive Debug, Clone, Copy, PartialEq and Eq.
+
+`VectorComponent` is re-exported from `yagmath` and `yagmath::vector`. Its variants
+are `X`, `Y`, `Z`, `W`, shared across dimensions. It occupies one byte using
+`#[repr(u8)]` and prevents invalid component names. Display and `as_str()` return
+the lowercase field name. Serde still reads/writes lowercase strings to preserve
+existing payloads; the memory reduction does not change the wire representation.
+Changing `component` from a string to this enum is a source-level API change.
 
 | Kind | Cause |
 |---|---|
@@ -126,7 +133,7 @@ fn main() -> Result<(), ConversionError> {
 | `UnsupportedMode` | Wrap requested with any float source/target |
 
 ```rust
-use yagmath::{ConversionErrorKind, ConversionMode, vector::Vector2};
+use yagmath::{ConversionErrorKind, ConversionMode, VectorComponent, vector::Vector2};
 
 let input = Vector2::new(10_i32, 300);
 let result = input.convert::<i8>(ConversionMode::Checked);
@@ -136,7 +143,7 @@ match result {
     Err(error) => {
         eprintln!("Cannot convert component {}: {}", error.component, error.kind);
 
-        assert_eq!(error.component, "y");
+        assert_eq!(error.component, VectorComponent::Y);
         assert_eq!(error.kind, ConversionErrorKind::OutOfRange);
     }
 }

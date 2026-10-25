@@ -1,3 +1,4 @@
+use std::vec::Vec;
 use crate::{Math, SegmentIntersection2 as Hit, vector::Vector2};
 
 #[test]

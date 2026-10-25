@@ -25,7 +25,7 @@ macro_rules! impl_length {
                 let mut length = 0.0_f64;
 
                 $(
-                    length = length.hypot(self.$field.to_f64());
+                    length = FloatMath::hypot(length, self.$field.to_f64());
                 )+
 
                 length

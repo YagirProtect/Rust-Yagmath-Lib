@@ -8,7 +8,7 @@ macro_rules! impl_float_rounds {
             pub fn floor(&self) -> Self {
                 Self {
                     $(
-                        $field: self.$field.floor(),
+                        $field: FloatMath::floor(self.$field),
                     )+
                 }
             }
@@ -17,7 +17,7 @@ macro_rules! impl_float_rounds {
             pub fn ceil(&self) -> Self {
                 Self {
                     $(
-                        $field: self.$field.ceil(),
+                        $field: FloatMath::ceil(self.$field),
                     )+
                 }
             }
@@ -27,7 +27,7 @@ macro_rules! impl_float_rounds {
             pub fn round(&self) -> Self {
                 Self {
                     $(
-                        $field: self.$field.round(),
+                        $field: FloatMath::round(self.$field),
                     )+
                 }
             }

@@ -7,7 +7,10 @@ fn follows_line_with_total_distance_limit_in_all_dimensions() {
     let v = Vector3::new(0, 0, 0).move_towards(Vector3::new(2, 3, 6), 3.5);
     assert_eq!(v, Vector3::new(1.0, 1.5, 3.0));
     let v = Vector4::new(0, 0, 0, 0).move_towards(Vector4::new(1, 1, 1, 1), 1.0);
-    assert_eq!(v, Vector4::new(0.5, 0.5, 0.5, 0.5));
+    for component in [v.x, v.y, v.z, v.w] {
+        assert!((component - 0.5).abs() < 1e-12);
+    }
+    assert!((v.length() - 1.0).abs() < 1e-12);
 }
 
 #[test]

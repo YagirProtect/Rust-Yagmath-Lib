@@ -64,7 +64,7 @@ macro_rules! create_bounds {
             pub fn from_start_end(mut start: $vector<T>, mut end: $vector<T>) -> Option<Self> {
                 $(
                     if start.$field > end.$field {
-                        std::mem::swap(&mut start.$field, &mut end.$field);
+                        core::mem::swap(&mut start.$field, &mut end.$field);
                     }
                 )+
                 Self::new(start, end)

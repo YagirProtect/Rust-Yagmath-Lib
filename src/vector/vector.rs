@@ -1,3 +1,4 @@
+use crate::float_math::FloatMath;
 use crate::extensions::to_f64::t_to_f64::ToF64;
 use crate::extensions::mul::t_safe_mul::SafeMul;
 use crate::extensions::add::t_safe_add::SafeAdd;

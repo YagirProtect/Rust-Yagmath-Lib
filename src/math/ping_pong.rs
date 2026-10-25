@@ -1,3 +1,4 @@
+use crate::float_math::FloatMath;
 use super::Math;
 use crate::extensions::to_f64::t_to_f64::ToF64;
 
@@ -24,7 +25,7 @@ impl Math {
                 length - (value - length)
             };
         }
-        let phase = value.rem_euclid(period);
+        let phase = FloatMath::rem_euclid(value, period);
         if phase <= length {
             phase
         } else {

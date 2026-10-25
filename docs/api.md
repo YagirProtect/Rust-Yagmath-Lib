@@ -11,7 +11,7 @@ This inventory lists the implemented API, not proposed features. `V<T>`/`BoundsN
 yagmath::vector::{Vector2, Vector3, Vector4, DirectionScalar}
 yagmath::bounds::{Bounds2, Bounds3}
 yagmath::{Plane, Math, SegmentIntersection2}
-yagmath::{ConversionMode, RoundingMode, ConversionError, ConversionErrorKind}
+yagmath::{ConversionMode, RoundingMode, ConversionError, ConversionErrorKind, VectorComponent}
 yagmath::conversion::ConvertFrom
 yagmath::extensions::to_f64::t_to_f64::ToF64
 yagmath::extensions::{add::t_safe_add::SafeAdd, sub::t_safe_sub::SafeSub,
@@ -131,6 +131,7 @@ bounds, Plane, SegmentIntersection2 and the conversion policies/errors.
 
 * [ConversionMode](conversion.md#modes): Checked, Clamp, Wrap.
 * [RoundingMode](conversion.md#rounding): Truncate, Round, Floor, Ceil.
+* `VectorComponent`: one-byte X/Y/Z/W identifiers; re-exported from the root and vector module.
 * [ConversionError / ConversionErrorKind](conversion.md#errors): first component, OutOfRange / PrecisionLoss / NonFinite / UnsupportedMode.
 * [Scalar traits](extensions.md#traits): SafeAdd, SafeSub, SafeMul, SafeDiv, ToF64, DirectionScalar and ConvertFrom.
 
