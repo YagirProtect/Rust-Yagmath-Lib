@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="370" viewBox="0 0 820 370" role="img" aria-labelledby="title desc">
+  <title id="title">Lerp and slerp between unit vectors</title>
+  <desc id="desc">Lerp follows the straight chord from one unit direction to another and becomes shorter. Slerp follows the unit circle arc and preserves length.</desc>
+  <rect width="820" height="370" rx="12" fill="#f3f6fa"/>
+  <g font-family="sans-serif" fill="#16324f">
+    <text x="28" y="36" font-size="22" font-weight="bold">Same endpoints, different paths</text>
+    <path d="M100 300H365M100 300V65" stroke="#a2b1c2" stroke-width="2"/>
+    <path d="M100 90A210 210 0 0 1 310 300" fill="none" stroke="#16696f" stroke-width="5"/>
+    <path d="M100 90L310 300" fill="none" stroke="#d08b26" stroke-width="4"/>
+    <path d="M100 300L248.49 151.51M100 300L205 195" fill="none" stroke="#a2b1c2" stroke-dasharray="5 5"/>
+    <g fill="#16324f"><circle cx="100" cy="90" r="5"/><circle cx="310" cy="300" r="5"/></g>
+    <circle cx="248.49" cy="151.51" r="6" fill="#16696f"/>
+    <circle cx="205" cy="195" r="6" fill="#d08b26"/>
+    <g font-size="16"><text x="35" y="80">b=(0,1)</text><text x="275" y="329">a=(1,0)</text><text x="83" y="326">origin</text></g>
+    <path d="M439 101H478" stroke="#16696f" stroke-width="5"/><path d="M439 201H478" stroke="#d08b26" stroke-width="4"/>
+    <text x="494" y="107" font-size="20" font-weight="bold">slerp(a, b, 0.5)</text>
+    <text x="494" y="138" font-size="17">(0.707, 0.707), length = 1</text>
+    <text x="494" y="207" font-size="20" font-weight="bold">lerp(a, b, 0.5)</text>
+    <text x="494" y="238" font-size="17">(0.5, 0.5), length ≈ 0.707</text>
+    <text x="439" y="297" font-size="16">Slerp changes direction along the arc.</text>
+    <text x="439" y="323" font-size="16">Non-unit lengths interpolate linearly.</text>
+  </g>
+</svg>

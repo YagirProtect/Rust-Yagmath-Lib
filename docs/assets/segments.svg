@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="245" viewBox="0 0 900 245" role="img" aria-labelledby="title desc">
+  <title id="title">Closed 2D segment intersections</title>
+  <desc id="desc">Crossing segments and endpoint touches return a point. Collinear segments can share a complete interval, returned as an overlap.</desc>
+  <rect width="900" height="245" rx="12" fill="#f3f6fa"/>
+  <g font-family="sans-serif" fill="#16324f">
+    <g font-size="20" font-weight="bold"><text x="34" y="38">Crossing</text><text x="340" y="38">Endpoint touch</text><text x="640" y="38">Collinear overlap</text></g>
+    <path d="M45 172L237 66" stroke="#16696f" stroke-width="4"/>
+    <path d="M45 66L237 172" stroke="#d08b26" stroke-width="4"/>
+    <circle cx="141" cy="119" r="6" fill="#16324f"/>
+    <path d="M343 166L435 94" stroke="#16696f" stroke-width="4"/>
+    <path d="M435 94L537 166" stroke="#d08b26" stroke-width="4"/>
+    <circle cx="435" cy="94" r="6" fill="#16324f"/>
+    <path d="M633 106H790" stroke="#16696f" stroke-width="4"/>
+    <path d="M691 106H850" stroke="#d08b26" stroke-width="4"/>
+    <path d="M691 106H790" stroke="#16324f" stroke-width="7"/>
+    <path d="M691 100V138M790 100V138" stroke="#a2b1c2" stroke-dasharray="3 3"/>
+    <g font-size="17"><text x="93" y="218">Point(p)</text><text x="389" y="218">Point(p)</text><text x="632" y="218">Overlap { start, end }</text></g>
+  </g>
+</svg>

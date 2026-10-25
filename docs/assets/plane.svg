@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="370" viewBox="0 0 820 370" role="img" aria-labelledby="title desc">
+  <title id="title">Plane normal, signed distance and point projection</title>
+  <desc id="desc">A horizontal plane at y equals ten has upward normal and distance coefficient minus ten. A point at y thirteen is three units above it; its closest point has y ten.</desc>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="#16696f" stroke-width="1.5"/></marker></defs>
+  <rect width="820" height="370" rx="12" fill="#f3f6fa"/>
+  <g font-family="sans-serif" fill="#16324f">
+    <text x="25" y="37" font-size="22" font-weight="bold">Plane: n · point + d = 0</text>
+    <path d="M55 277L186 190L412 234L283 321Z" fill="#e2f3ef" stroke="#16696f" stroke-width="2"/>
+    <path d="M170 251V121" stroke="#16696f" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M305 119V265" stroke="#d08b26" stroke-width="2" stroke-dasharray="6 4"/>
+    <circle cx="305" cy="119" r="6" fill="#d08b26"/><circle cx="305" cy="265" r="6" fill="#16696f"/>
+    <g font-size="16"><text x="70" y="109">normal=(0,1,0)</text><text x="319" y="116">P</text><text x="318" y="207">+3</text><text x="319" y="284">closest point</text><text x="84" y="345">surface y=10, coefficient d=-10</text></g>
+    <g font-size="18"><text x="468" y="109">P = (2,13,4)</text><text x="468" y="149">signed_distance(P) = 3</text><text x="468" y="203">closest_point(P) = (2,10,4)</text><text x="468" y="257">project_vector(P) = (2,0,4)</text></g>
+    <text x="468" y="305" font-size="16">Vectors ignore the surface offset;</text><text x="468" y="329" font-size="16">points keep their location in space.</text>
+  </g>
+</svg>
