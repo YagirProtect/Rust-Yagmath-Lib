@@ -1,20 +1,20 @@
-use crate::extensions::to_f64::t_to_f64::ToF64;
+use crate::extensions::ToF64;
 
-/// Internal scalar interpolation interface; its containing module is crate-private.
-/// T is the endpoint type; calculation and output use f64.
+/// Adds linear interpolation to numeric scalars and custom types that implement ToF64.
 pub trait Lerp<T> {
-    /// Interpolates two ToF64 values with a + (b-a)*t, without clamping.
-    /// This internal blanket implementation permits extrapolation and IEEE overflow;
-    /// it is not exported as a downstream scalar extension.
-    fn lerp(&self, other: T, t: f64) -> f64;
+    /// Interpolates toward `other` with `t` clamped to [0, 1].
+    fn lerp(&self, other: T, t: f64) -> f64 {
+        self.lerp_unclamped(other, t.clamp(0.0, 1.0))
+    }
+
+    /// Interpolates using `a + (b - a) * t` in f64.
+    /// Values of `t` outside [0, 1] extrapolate. NaN and overflow can propagate,
+    /// and converting wide integers to f64 can lose precision.
+    fn lerp_unclamped(&self, other: T, t: f64) -> f64;
 }
 
-
 impl<T: ToF64> Lerp<T> for T {
-    /// Interpolates two ToF64 values with a + (b-a)*t, without clamping.
-    /// This internal blanket implementation permits extrapolation and IEEE overflow;
-    /// it is not exported as a downstream scalar extension.
-    fn lerp(&self, other: Self, t: f64) -> f64 {
+    fn lerp_unclamped(&self, other: T, t: f64) -> f64 {
         let a = self.to_f64();
         let b = other.to_f64();
 

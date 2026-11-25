@@ -1,5 +1,5 @@
 use super::Math;
-use crate::extensions::to_f64::t_to_f64::ToF64;
+use crate::extensions::ToF64;
 
 impl Math {
     /// Spring-like smoothing toward target, updating velocity for the next call.

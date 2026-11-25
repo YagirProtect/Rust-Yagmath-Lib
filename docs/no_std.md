@@ -8,7 +8,7 @@ default features and enable `no_std`, which selects the optional `libm` math bac
 
 ```toml
 [dependencies]
-yagmath = { version = "0.1.3", default-features = false, features = ["no_std"] }
+yagmath = { version = "0.1.4", default-features = false, features = ["no_std"] }
 ```
 
 no_std support was introduced in version 0.1.3. For a local checkout, replace

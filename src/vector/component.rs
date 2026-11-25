@@ -76,16 +76,16 @@ impl<'de> serde::Deserialize<'de> for VectorComponent {
 /// time. Unknown fields fail to compile instead of introducing a runtime fallback.
 macro_rules! component_for_field {
     (x) => {
-        crate::vector::VectorComponent::X
+        VectorComponent::X
     };
     (y) => {
-        crate::vector::VectorComponent::Y
+        VectorComponent::Y
     };
     (z) => {
-        crate::vector::VectorComponent::Z
+        VectorComponent::Z
     };
     (w) => {
-        crate::vector::VectorComponent::W
+        VectorComponent::W
     };
 }
 

@@ -7,29 +7,29 @@ macro_rules! impl_convert {
             /// Converts every component, truncating fractional float-to-integer values.
             /// Checked rejects overflow/float precision loss; Clamp saturates;
             /// Wrap supports integer-to-integer conversions only.
-            pub fn convert<U>(&self, mode: crate::conversion::ConversionMode)
-                -> Result<$name<U>, crate::conversion::ConversionError>
+            pub fn convert<U>(&self, mode: ConversionMode)
+                -> Result<$name<U>, ConversionError>
             where
-                U: crate::conversion::ConvertFrom<T>,
+                U: ConvertFrom<T>,
             {
-                self.convert_with_rounding(mode, crate::conversion::RoundingMode::Truncate)
+                self.convert_with_rounding(mode, RoundingMode::Truncate)
             }
 
             /// Rounding is applied only for float-to-integer conversions, before
             /// range checking. Round uses halfway-away-from-zero behavior.
             pub fn convert_with_rounding<U>(
                 &self,
-                mode: crate::conversion::ConversionMode,
-                rounding: crate::conversion::RoundingMode,
-            ) -> Result<$name<U>, crate::conversion::ConversionError>
+                mode: ConversionMode,
+                rounding: RoundingMode,
+            ) -> Result<$name<U>, ConversionError>
             where
-                U: crate::conversion::ConvertFrom<T>,
+                U: ConvertFrom<T>,
             {
                 Ok($name {
                     $(
                         $field: U::convert_from(&self.$field, mode, rounding)
-                            .map_err(|kind| crate::conversion::ConversionError {
-                                component: super::component::component_for_field!($field),
+                            .map_err(|kind| ConversionError {
+                                component: component_for_field!($field),
                                 kind,
                             })?,
                     )+

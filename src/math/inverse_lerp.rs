@@ -1,5 +1,5 @@
 use super::Math;
-use crate::extensions::to_f64::t_to_f64::ToF64;
+use crate::extensions::ToF64;
 
 impl Math {
     /// Returns the position of value in start..end, clamped to [0, 1].

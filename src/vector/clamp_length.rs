@@ -3,7 +3,7 @@
 /// before normalization so huge/subnormal coordinates can still produce a usable direction.
 macro_rules! impl_clamp_length {
     ($name:ident, $($field:ident),+) => {
-        impl<T: crate::extensions::to_f64::t_to_f64::ToF64> $name<T> {
+        impl<T: ToF64> $name<T> {
             /// Returns a vector whose length is at most max, within float precision.
             /// Shorter vectors are unchanged after conversion to f64.
             /// Returns None for negative/non-finite limits or non-finite components.

@@ -23,17 +23,7 @@ macro_rules! impl_lerp {
             /// Componentwise linear interpolation with t clamped to [0, 1].
             /// NaN t propagates. Uses the same arithmetic/overflow rules as lerp_unclamped.
             pub fn lerp(&self, rhs: Self, t: f64) -> $name<f64> {
-                let t = t.clamp(0.0, 1.0);
-                $name::<f64> {
-                    $(
-                        $field: {
-                            let a = self.$field.to_f64();
-                            let b = rhs.$field.to_f64();
-
-                            a + (b - a) * t
-                        },
-                    )+
-                }
+                self.lerp_unclamped(rhs, t.clamp(0.0, 1.0))
             }
         }
     }

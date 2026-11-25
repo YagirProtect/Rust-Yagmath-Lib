@@ -34,6 +34,8 @@
 //! }
 //! ```
 
+use core::{error::Error, fmt};
+
 use crate::float_math::FloatMath;
 use crate::vector::VectorComponent;
 
@@ -106,9 +108,9 @@ pub struct ConversionError {
     pub kind: ConversionErrorKind,
 }
 
-impl core::fmt::Display for ConversionErrorKind {
+impl fmt::Display for ConversionErrorKind {
     /// Writes a human-readable conversion failure; vector errors include the field name.
-    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.write_str(match self {
             Self::OutOfRange => "value is outside the target range",
             Self::PrecisionLoss => "value cannot be represented exactly",
@@ -118,14 +120,14 @@ impl core::fmt::Display for ConversionErrorKind {
     }
 }
 
-impl core::fmt::Display for ConversionError {
+impl fmt::Display for ConversionError {
     /// Writes a human-readable conversion failure; vector errors include the field name.
-    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "component {}: {}", self.component, self.kind)
     }
 }
 
-impl core::error::Error for ConversionError {}
+impl Error for ConversionError {}
 
 /// Converts a scalar; vector conversions attach the failing component's name.
 pub trait ConvertFrom<T>: Sized {

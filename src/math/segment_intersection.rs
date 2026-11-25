@@ -1,5 +1,5 @@
 use super::{Math, remap::interpolate};
-use crate::extensions::to_f64::t_to_f64::ToF64;
+use crate::extensions::ToF64;
 use crate::vector::Vector2;
 
 /// The nonempty intersection of two closed 2D line segments.

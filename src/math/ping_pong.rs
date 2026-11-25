@@ -1,6 +1,6 @@
 use crate::float_math::FloatMath;
 use super::Math;
-use crate::extensions::to_f64::t_to_f64::ToF64;
+use crate::extensions::ToF64;
 
 impl Math {
     /// Triangle wave from 0 to length and back, also for negative values.

@@ -1,5 +1,6 @@
 use super::{Vector2, Vector3, Vector4};
-use crate::extensions::add::t_safe_add::SafeAdd;
+use crate::extensions::SafeAdd;
+use core::ops::{Add, AddAssign};
 
 /// Generates componentwise operator and assignment trait implementations.
 /// $name names an existing generic vector; $field lists its components.
@@ -8,10 +9,7 @@ use crate::extensions::add::t_safe_add::SafeAdd;
 /// Division propagates the first failed component with ?, returning no partial vector.
 macro_rules! impl_basic_operations {
     ($name:ident, $($field:ident),+) => {
-        impl<T> core::ops::AddAssign for $name<T>
-        where
-            T: crate::extensions::add::t_safe_add::SafeAdd,
-        {
+        impl<T: SafeAdd> AddAssign for $name<T> {
             /// Adds corresponding fields using SafeAdd; each assignment replaces one field.
             fn add_assign(&mut self, rhs: Self) {
                 $(
@@ -20,10 +18,7 @@ macro_rules! impl_basic_operations {
             }
         }
 
-        impl<T> core::ops::SubAssign for $name<T>
-        where
-            T: crate::extensions::sub::t_safe_sub::SafeSub,
-        {
+        impl<T: SafeSub> SubAssign for $name<T> {
             /// Subtracts corresponding fields using SafeSub, preserving the scalar policy.
             fn sub_assign(&mut self, rhs: Self) {
                 $(
@@ -32,10 +27,7 @@ macro_rules! impl_basic_operations {
             }
         }
 
-        impl<T> core::ops::MulAssign for $name<T>
-        where
-            T: crate::extensions::mul::t_safe_mul::SafeMul,
-        {
+        impl<T: SafeMul> MulAssign for $name<T> {
             /// Multiplies corresponding fields; this is componentwise, not a dot product.
             fn mul_assign(&mut self, rhs: Self) {
                 $(
@@ -44,10 +36,7 @@ macro_rules! impl_basic_operations {
             }
         }
 
-        impl<T> core::ops::MulAssign<T> for $name<T>
-        where
-            T: crate::extensions::mul::t_safe_mul::SafeMul + Copy,
-        {
+        impl<T: SafeMul + Copy> MulAssign<T> for $name<T> {
             /// Multiplies every field by the same copied scalar rhs.
             fn mul_assign(&mut self, rhs: T) {
                 $(
@@ -56,10 +45,7 @@ macro_rules! impl_basic_operations {
             }
         }
 
-        impl<T> core::ops::Add for $name<T>
-        where
-            T: crate::extensions::add::t_safe_add::SafeAdd,
-        {
+        impl<T: SafeAdd> Add for $name<T> {
            type Output = Self;
            /// Builds a vector from pairwise sums using the scalar SafeAdd policy.
            fn add(self, rhs: Self) -> Self {
@@ -71,10 +57,7 @@ macro_rules! impl_basic_operations {
            }
         }
 
-        impl<T> core::ops::Sub for $name<T>
-        where
-            T: crate::extensions::sub::t_safe_sub::SafeSub,
-        {
+        impl<T: SafeSub> Sub for $name<T> {
            type Output = Self;
            /// Builds a vector from pairwise differences using the scalar SafeSub policy.
            fn sub(self, rhs: Self) -> Self {
@@ -86,10 +69,7 @@ macro_rules! impl_basic_operations {
            }
         }
 
-        impl<T> core::ops::Mul for $name<T>
-        where
-            T: crate::extensions::mul::t_safe_mul::SafeMul,
-        {
+        impl<T: SafeMul> Mul for $name<T> {
             type Output = Self;
             /// Builds a vector from pairwise products using the scalar SafeMul policy.
             fn mul(self, rhs: Self) -> Self {
@@ -101,10 +81,7 @@ macro_rules! impl_basic_operations {
             }
         }
 
-        impl<T> core::ops::Div for $name<T>
-        where
-            T: crate::extensions::div::t_safe_div::SafeDiv,
-        {
+        impl<T: SafeDiv> Div for $name<T> {
            type Output = Option<Self>;
            /// Divides corresponding fields. The first None propagates through ?,
            /// so a failure never returns a partially computed vector.
@@ -117,10 +94,7 @@ macro_rules! impl_basic_operations {
            }
         }
 
-        impl<T> core::ops::Mul<T> for $name<T>
-        where
-            T: crate::extensions::mul::t_safe_mul::SafeMul + Copy,
-        {
+        impl<T: SafeMul + Copy> Mul<T> for $name<T> {
             type Output = Self;
             /// Builds a vector by multiplying each field by the copied scalar rhs.
             fn mul(self, rhs: T) -> Self {
@@ -132,10 +106,7 @@ macro_rules! impl_basic_operations {
             }
         }
 
-        impl<T> core::ops::Div<T> for $name<T>
-        where
-            T: crate::extensions::div::t_safe_div::SafeDiv + Copy,
-        {
+        impl<T: SafeDiv + Copy> Div<T> for $name<T> {
             type Output = Option<Self>;
             /// Divides every field by the same copied scalar. Any failed scalar
             /// division propagates as None for the whole vector.
@@ -156,7 +127,7 @@ pub(super) use impl_basic_operations;
 /// The field list contains the shared coordinates. Other coordinates keep their values.
 macro_rules! impl_add_smaller {
     ($larger:ident, $smaller:ident, $($field:ident),+) => {
-        impl<T: SafeAdd> core::ops::Add<$smaller<T>> for $larger<T> {
+        impl<T: SafeAdd> Add<$smaller<T>> for $larger<T> {
             type Output = Self;
 
             /// Adds the shared coordinates and returns a vector of the left-hand dimension.
@@ -166,7 +137,7 @@ macro_rules! impl_add_smaller {
             }
         }
 
-        impl<T: SafeAdd> core::ops::AddAssign<$smaller<T>> for $larger<T> {
+        impl<T: SafeAdd> AddAssign<$smaller<T>> for $larger<T> {
             /// Updates the shared coordinates using the scalar addition policy.
             fn add_assign(&mut self, rhs: $smaller<T>) {
                 $(

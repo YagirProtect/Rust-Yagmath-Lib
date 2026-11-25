@@ -1,5 +1,5 @@
 use super::Math;
-use crate::extensions::to_f64::t_to_f64::ToF64;
+use crate::extensions::ToF64;
 
 impl Math {
     /// Advances by at most max_delta without overshooting. Negative steps do nothing.

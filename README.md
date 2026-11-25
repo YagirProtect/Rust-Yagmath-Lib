@@ -8,11 +8,16 @@ Generic Rust vector math and geometry for games: **2D/3D/4D vectors, axis-aligne
 
 ## Usage
 
+New in 0.1.4
+
+- Add a smaller vector on the right with `+` or `+=`. For example, `Vector3 + Vector2` offsets X and Y and preserves Z. [Vector operators](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/vectors.md#operators).
+- Import `yagmath::extensions::Lerp` to interpolate numbers. `lerp` clamps the factor to `[0, 1]`, and `lerp_unclamped` allows extrapolation. [Scalar extensions](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/extensions.md#direct-calls).
+
 Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-yagmath = "0.1.3"
+yagmath = "0.1.4"
 ```
 
 Then use it in your Rust code:
@@ -55,7 +60,7 @@ For embedded Rust, disable the default `std` feature and enable `no_std`:
 
 ```toml
 [dependencies]
-yagmath = { version = "0.1.3", default-features = false, features = ["no_std"] }
+yagmath = { version = "0.1.4", default-features = false, features = ["no_std"] }
 ```
 
 no_std support was introduced in version 0.1.3.
@@ -67,7 +72,7 @@ For saving/loading vectors, bounds and other data, enable optional Serde support
 
 ```toml
 [dependencies]
-yagmath = { version = "0.1.3", features = ["serde"] }
+yagmath = { version = "0.1.4", features = ["serde"] }
 ```
 
 See the [serialization guide](https://github.com/YagirProtect/Rust-Yagmath-Lib/blob/master/docs/serde.md)

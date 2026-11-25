@@ -1,5 +1,5 @@
 use super::{Vector2, Vector3};
-use crate::extensions::to_f64::t_to_f64::ToF64;
+use crate::extensions::ToF64;
 
 impl<T: ToF64> Vector2<T> {
     /// Returns the signed 2D determinant: x1 * y2 - y1 * x2.

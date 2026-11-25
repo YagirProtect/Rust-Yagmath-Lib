@@ -1,4 +1,4 @@
-use crate::extensions::to_f64::t_to_f64::ToF64;
+use crate::extensions::ToF64;
 use crate::vector::{Vector2, Vector3};
 
 // Avoid overflow for opposite-sign extremes, while preserving tiny equal values.
@@ -26,24 +26,13 @@ macro_rules! create_bounds {
         /// Default uses scalar defaults for both corners (zero bounds for numbers).
         /// With the `serde` feature, deserialization restores corners without validation;
         /// call `is_valid` to validate untrusted numeric data.
-        #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+        #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash)]
         #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
         pub struct $name<T> {
             /// Inclusive minimum corner. Direct changes can invalidate the bounds.
             pub min: $vector<T>,
             /// Inclusive maximum corner. Direct changes can invalidate the bounds.
             pub max: $vector<T>,
-        }
-
-        impl<T: Default> Default for $name<T> {
-            /// Defaults both corners independently. For numeric scalars this creates
-            /// a zero-size region at the origin, not an empty-region sentinel.
-            fn default() -> Self {
-                Self {
-                    min: $vector::default(),
-                    max: $vector::default(),
-                }
-            }
         }
 
         impl<T: PartialOrd + ToF64> $name<T> {

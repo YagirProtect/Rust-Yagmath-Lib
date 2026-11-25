@@ -5,4 +5,11 @@ pub mod sub;
 pub mod div;
 pub mod mul;
 pub mod to_f64;
-pub(crate) mod number_lerp;
+mod number_lerp;
+
+pub use number_lerp::Lerp;
+
+pub(crate) use self::{
+    add::t_safe_add::SafeAdd, div::t_safe_div::SafeDiv, mul::t_safe_mul::SafeMul,
+    sub::t_safe_sub::SafeSub, to_f64::t_to_f64::ToF64,
+};

@@ -1,6 +1,6 @@
 //! SafeAdd implementations for built-in integers, using saturating_add.
 
-use crate::extensions::add::t_safe_add::SafeAdd;
+use super::t_safe_add::SafeAdd;
 
 /// Implements SafeAdd for each scalar type in the nonempty $type:ty list.
 /// The outer repetition emits one independent trait impl per type.

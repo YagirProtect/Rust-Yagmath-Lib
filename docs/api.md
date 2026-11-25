@@ -14,6 +14,7 @@ yagmath::{Plane, Math, SegmentIntersection2}
 yagmath::{ConversionMode, RoundingMode, ConversionError, ConversionErrorKind, VectorComponent}
 yagmath::conversion::ConvertFrom
 yagmath::extensions::to_f64::t_to_f64::ToF64
+yagmath::extensions::Lerp
 yagmath::extensions::{add::t_safe_add::SafeAdd, sub::t_safe_sub::SafeSub,
                         mul::t_safe_mul::SafeMul, div::t_safe_div::SafeDiv}
 ```

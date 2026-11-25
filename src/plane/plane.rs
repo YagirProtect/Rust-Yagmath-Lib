@@ -1,4 +1,4 @@
-use crate::extensions::to_f64::t_to_f64::ToF64;
+use crate::extensions::ToF64;
 use crate::vector::Vector3;
 
 /// An oriented plane: normal.dot(point) + distance = 0.

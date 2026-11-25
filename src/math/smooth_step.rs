@@ -1,5 +1,5 @@
 use super::{Math, remap::interpolate};
-use crate::extensions::to_f64::t_to_f64::ToF64;
+use crate::extensions::ToF64;
 
 impl Math {
     /// Interpolates from..to with zero slope at both ends. t is clamped to [0, 1].

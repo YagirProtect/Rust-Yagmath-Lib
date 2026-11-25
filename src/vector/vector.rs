@@ -1,9 +1,11 @@
+use core::fmt;
+use core::ops::{Add, AddAssign, Div, Mul, MulAssign, Sub, SubAssign};
+
+// The generated implementations resolve their imports in this module.
+use super::{VectorComponent, component::component_for_field};
+use crate::conversion::{ConversionError, ConversionMode, ConvertFrom, RoundingMode};
+use crate::extensions::{SafeAdd, SafeDiv, SafeMul, SafeSub, ToF64};
 use crate::float_math::FloatMath;
-use crate::extensions::to_f64::t_to_f64::ToF64;
-use crate::extensions::mul::t_safe_mul::SafeMul;
-use crate::extensions::add::t_safe_add::SafeAdd;
-use crate::extensions::div::t_safe_div::SafeDiv;
-use crate::extensions::sub::t_safe_sub::SafeSub;
 
 /// Defines one public vector type and attaches its feature implementations.
 /// $name is the struct identifier; $field is a nonempty comma-separated list of
@@ -26,7 +28,7 @@ macro_rules! create_vector {
         /// division fails. `+=`, `-=`, vector/scalar `*=` are supported; `/=` is not.
         /// For `+` and `+=`, the right-hand vector can also have fewer dimensions
         /// with the same component type. Only shared coordinates are added.
-        #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+        #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash)]
         #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
         pub struct $name<T> {
             $(
@@ -39,17 +41,6 @@ macro_rules! create_vector {
             /// Constructs a vector from components in field order, without validation.
             pub fn new($($field: T),+) -> Self {
                 Self { $($field),+ }
-            }
-        }
-
-        impl<T: Default> Default for $name<T> {
-            /// Defaults each field separately; no arithmetic trait bound is needed.
-            fn default() -> Self {
-                Self {
-                    $(
-                        $field: T::default(),
-                    )+
-                }
             }
         }
 
