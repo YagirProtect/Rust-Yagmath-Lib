@@ -27,6 +27,7 @@ Plane also exists at `yagmath::plane::Plane`; Math and SegmentIntersection2 also
 |---|---|---|---|
 | `new(fields...)`, `default()` | `V<T>` | All T / T: Default | [Creation](vectors.md#creation) |
 | `+`, `-`, vector `*`, scalar `*` | `V<T>` | SafeAdd/Sub/Mul; scalar * also Copy | [Operators](vectors.md#operators) |
+| `+` / `+=` with a smaller right-hand vector | Left-hand vector / `()` | SafeAdd and same component type; 3D + 2D, 4D + 2D or 3D | [Operators](vectors.md#operators) |
 | vector `/`, scalar `/` | `Option<V<T>>` | SafeDiv; scalar / also Copy | [Operators](vectors.md#operators) |
 | `+=`, `-=`, vector/scalar `*=` | `()` | Same scalar policies | [Operators](vectors.md#operators) |
 | `zero/up/right` | `V<T>` | DirectionScalar; all dimensions | [Directions](vectors.md#directions) |

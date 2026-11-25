@@ -50,6 +50,23 @@ fn addition_of_zero_preserves_values() {
 }
 
 #[test]
+fn smaller_right_hand_vectors_update_only_shared_coordinates() {
+    assert_eq!(
+        Vector3::new(i8::MAX, 20, 30) + Vector2::new(1, 2),
+        Vector3::new(i8::MAX, 22, 30)
+    );
+    let planar = Vector4::new(10, 20, 30, 40) + Vector2::new(1, 2);
+    assert_eq!(planar, Vector4::new(11, 22, 30, 40));
+    let spatial = Vector4::new(10, 20, 30, 40) + Vector3::new(1, 2, 3);
+    assert_eq!(spatial, Vector4::new(11, 22, 33, 40));
+
+    let mut position = Vector3::new(10.0_f32, 20.0, -0.0);
+    position += Vector2::new(0.5, 2.0);
+    assert_eq!(position, Vector3::new(10.5, 22.0, 0.0));
+    assert!(position.z.is_sign_negative());
+}
+
+#[test]
 fn creation_add() {
     let result = Vector2 { x: 1, y: 2 } + Vector2 { x: 10, y: 20 };
 

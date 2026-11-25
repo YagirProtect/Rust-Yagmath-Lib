@@ -39,6 +39,7 @@ assert_eq!(labels.x, "left");
 | Expression | Result | Meaning |
 |---|---|---|
 | `a + b`, `a - b` | `V<T>` | Componentwise, via SafeAdd/SafeSub |
+| `a + smaller`, `a += smaller` | Left-hand vector or mutation of a | Adds shared coordinates, preserving the remaining coordinates of a |
 | `a * b` | `V<T>` | Componentwise multiplication, not dot/cross |
 | `a * scalar` | `V<T>` | Right-hand scalar multiplication; scalar type is T |
 | `a / b`, `a / scalar` | `Option<V<T>>` | All components must divide successfully |
@@ -59,6 +60,22 @@ v -= Vector2::new(1, 1);
 v *= Vector2::new(2, 3);
 v *= 2;
 assert_eq!(v, Vector2::new(12, 30));
+```
+
+Both operands use the same component type. For addition across dimensions,
+put the smaller vector on the right. A `Vector2` offsets X/Y, and a `Vector3`
+offsets X/Y/Z of a `Vector4`.
+
+```rust
+use yagmath::vector::{Vector2, Vector3, Vector4};
+
+let position = Vector3::new(10, 20, 30) + Vector2::new(1, 2);
+assert_eq!(position, Vector3::new(11, 22, 30));
+
+let mut position = Vector4::new(10, 20, 30, 40);
+position += Vector3::new(1, 2, 3);
+position += Vector2::new(4, 5);
+assert_eq!(position, Vector4::new(15, 27, 33, 40));
 ```
 
 <a id="directions"></a>

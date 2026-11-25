@@ -89,7 +89,7 @@ cargo test tests::vector::slerp
 cargo test tests::plane
 ```
 
-The suite contains **237 unit tests**, plus **11 serialization tests** when the
+The suite contains **238 unit tests**, plus **11 serialization tests** when the
 `serde` feature is enabled, and executable documentation examples. Totals grow as
 examples/tests are added; command output is authoritative. This is a test count,
 not a coverage percentage or a claim that every possible numeric input has been proved correct.

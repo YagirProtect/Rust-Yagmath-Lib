@@ -1,3 +1,6 @@
+use super::{Vector2, Vector3, Vector4};
+use crate::extensions::add::t_safe_add::SafeAdd;
+
 /// Generates componentwise operator and assignment trait implementations.
 /// $name names an existing generic vector; $field lists its components.
 /// Each implementation requires only its own SafeAdd/Sub/Mul/Div trait.
@@ -148,3 +151,32 @@ macro_rules! impl_basic_operations {
 }
 
 pub(super) use impl_basic_operations;
+
+/// Adds a smaller right-hand vector to a larger left-hand vector.
+/// The field list contains the shared coordinates. Other coordinates keep their values.
+macro_rules! impl_add_smaller {
+    ($larger:ident, $smaller:ident, $($field:ident),+) => {
+        impl<T: SafeAdd> core::ops::Add<$smaller<T>> for $larger<T> {
+            type Output = Self;
+
+            /// Adds the shared coordinates and returns a vector of the left-hand dimension.
+            fn add(mut self, rhs: $smaller<T>) -> Self::Output {
+                self += rhs;
+                self
+            }
+        }
+
+        impl<T: SafeAdd> core::ops::AddAssign<$smaller<T>> for $larger<T> {
+            /// Updates the shared coordinates using the scalar addition policy.
+            fn add_assign(&mut self, rhs: $smaller<T>) {
+                $(
+                    self.$field = self.$field.safe_add(rhs.$field);
+                )+
+            }
+        }
+    };
+}
+
+impl_add_smaller!(Vector3, Vector2, x, y);
+impl_add_smaller!(Vector4, Vector2, x, y);
+impl_add_smaller!(Vector4, Vector3, x, y, z);

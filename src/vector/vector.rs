@@ -24,6 +24,8 @@ macro_rules! create_vector {
         /// ordinary float arithmetic. Scalar `*` is supported on the right.
         /// Vector/scalar `/` returns `Option<Self>` and fails if any component
         /// division fails. `+=`, `-=`, vector/scalar `*=` are supported; `/=` is not.
+        /// For `+` and `+=`, the right-hand vector can also have fewer dimensions
+        /// with the same component type. Only shared coordinates are added.
         #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
         #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
         pub struct $name<T> {
